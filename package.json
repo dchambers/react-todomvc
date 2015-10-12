@@ -1,0 +1,53 @@
+{
+  "name": "react-todmvc",
+  "version": "0.0.0",
+  "description": "React TodoMVC Example",
+  "main": "dist/app.js",
+  "author": "Dominic Chambers",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dchambers/react-todmvc.git"
+  },
+  "homepage": "https://github.com/dchambers/react-todmvc#readme",
+  "bugs": {
+    "url": "https://github.com/dchambers/react-todmvc/issues"
+  },
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "mkdirp dist && browserify js/app.jsx -s app -t babelify -o dist/app.js",
+    "start": "http-server & watch-run -p 'js/**' npm run build",
+    "test": "npm run test:node && npm run test:browser",
+    "test:node": "mocha --compilers js:babel/register localStorage.js test/app.jsx",
+    "test:node:watch": "mocha --compilers js:babel/register localStorage.js test/app.jsx -w",
+    "test:browser": "karma start",
+    "test:browser:debug": "karma start karma-debug.conf.js"
+  },
+  "dependencies": {
+    "classnames": "^2.1.5",
+    "director": "^1.2.0",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0",
+    "todomvc-app-css": "^2.0.0",
+    "todomvc-common": "^1.0.1"
+  },
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
+    "http-server": "^0.8.5",
+    "karma": "^0.13.10",
+    "karma-browserify": "^4.4.0",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-cli": "^0.1.1",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-mocha": "^0.2.0",
+    "localStorage": "^1.0.3",
+    "mkdirp": "^0.5.1",
+    "mocha": "^2.3.3",
+    "react-addons-test-utils": "^0.14.0",
+    "unexpected": "^10.0.1",
+    "unexpected-react-shallow": "^0.6.1",
+    "watch-run": "^1.2.2"
+  }
+}
