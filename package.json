@@ -20,8 +20,8 @@
     "pretest": "npm run pretest:lint",
     "pretest:lint": "eslint src test --ext=jsx --ext=js",
     "test": "npm run test:node && npm run test:browser",
-    "test:node": "mocha --compilers js:babel/register localStorage.js test/app.jsx",
-    "test:node:watch": "mocha --compilers js:babel/register localStorage.js test/app.jsx -w",
+    "test:node": "mocha --compilers js:babel/register localStorage.js test/**/*.jsx",
+    "test:node:watch": "mocha --compilers js:babel/register localStorage.js test/**/*.jsx -w",
     "test:browser": "karma start",
     "test:browser:debug": "karma start karma-debug.conf.js"
   },
