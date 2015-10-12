@@ -1,7 +1,3 @@
-/*jshint quotmark:false */
-/*jshint white:false */
-/*jshint trailing:false */
-/*jshint newcap:false */
 'use strict';
 
 var Utils = require('./Utils.js');

@@ -1,8 +1,3 @@
-/*jshint quotmark: false */
-/*jshint white: false */
-/*jshint trailing: false */
-/*jshint newcap: false */
-/*global React */
 'use strict';
 
 var ESCAPE_KEY = 27;

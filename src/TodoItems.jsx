@@ -1,9 +1,3 @@
-/*jshint quotmark: false */
-/*jshint white: false */
-/*jshint trailing: false */
-/*jshint newcap: false */
-/*global React */
-
 'use strict';
 
 var React = require('react');
