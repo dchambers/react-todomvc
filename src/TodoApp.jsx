@@ -5,6 +5,7 @@ var ACTIVE_TODOS = 'active';
 var COMPLETED_TODOS = 'completed';
 var React = require('react');
 var director = require('director');
+var Container = require('./Container.jsx');
 var TodoHeader = require('./TodoHeader.jsx');
 var TodoFooter = require('./TodoFooter.jsx');
 var TodoItems = require('./TodoItems.jsx');
@@ -93,7 +94,7 @@ var TodoApp = React.createClass({
 		}, this);
 
 		return (
-			<div>
+			<Container componentName="TodoApp">
 				<TodoHeader onTodoAdded={this.addTodo}/>
 				{todos.length ? (
 					<TodoItems activeTodoCount={model.activeTodoCount()} onToggleAll={this.toggleAll}>
@@ -105,7 +106,7 @@ var TodoApp = React.createClass({
 						nowShowing={this.state.nowShowing} onClearCompleted={this.clearCompleted}
 					/>
 				) : null}
-			</div>
+			</Container>
 		);
 	}
 });
