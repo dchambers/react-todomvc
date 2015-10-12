@@ -15,8 +15,8 @@
   },
   "scripts": {
     "prepublish": "npm run build",
-    "build": "mkdirp dist && browserify js/app.jsx -s app -t babelify -o dist/app.js",
-    "start": "http-server & watch-run -p 'js/**' npm run build",
+    "build": "mkdirp dist && browserify src/app.jsx -s app -t babelify -o dist/app.js",
+    "start": "http-server & watch-run -p 'src/**' npm run build",
     "test": "npm run test:node && npm run test:browser",
     "test:node": "mocha --compilers js:babel/register localStorage.js test/app.jsx",
     "test:node:watch": "mocha --compilers js:babel/register localStorage.js test/app.jsx -w",
