@@ -2,6 +2,7 @@
 
 var ENTER_KEY = 13;
 var React = require('react');
+var ReactDOM = require('react-dom');
 
 var TodoHeader = React.createClass({
 	handleKeyDown: function (event) {
@@ -11,11 +12,11 @@ var TodoHeader = React.createClass({
 
 		event.preventDefault();
 
-		var val = React.findDOMNode(this.refs.newField).value.trim();
+		var val = ReactDOM.findDOMNode(this.refs.newField).value.trim();
 
 		if (val) {
 			this.props.onTodoAdded(val);
-			React.findDOMNode(this.refs.newField).value = '';
+			ReactDOM.findDOMNode(this.refs.newField).value = '';
 		}
 	},
 	
