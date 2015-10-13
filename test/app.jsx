@@ -18,7 +18,10 @@ var TodoModel = require('../src/TodoModel.js');
 
 describe('TodoMVC App', function() {
   it('only renders a header when there are no items in the list', function() {
+    // given
     renderer.render(<TodoApp model={new TodoModel()}/>);
+    
+    // then
     expect(renderer, 'to have rendered',
       <Container componentName="TodoApp">
         <TodoHeader/>
