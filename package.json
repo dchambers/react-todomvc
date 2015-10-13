@@ -20,8 +20,8 @@
     "pretest": "npm run pretest:lint",
     "pretest:lint": "eslint src test --ext=jsx --ext=js",
     "test": "npm run test:node && npm run test:browser",
-    "test:node": "mocha --compilers js:babel/register localStorage.js test/**/*.jsx",
-    "test:node:watch": "mocha --compilers js:babel/register localStorage.js test/**/*.jsx -w",
+    "test:node": "mocha --compilers js:babel/register jsdom.js localStorage.js test/**/*.jsx",
+    "test:node:watch": "mocha --compilers js:babel/register jsdom.js localStorage.js test/**/*.jsx -w",
     "test:browser": "karma start",
     "test:browser:debug": "karma start karma-debug.conf.js"
   },
@@ -39,6 +39,7 @@
     "browserify": "^11.2.0",
     "eslint": "^1.6.0",
     "http-server": "^0.8.5",
+    "jsdom": "^6.5.1",
     "karma": "^0.13.10",
     "karma-browserify": "^4.4.0",
     "karma-chrome-launcher": "^0.2.1",
@@ -49,6 +50,7 @@
     "mkdirp": "^0.5.1",
     "mocha": "^2.3.3",
     "react-addons-test-utils": "^0.14.0",
+    "teaspoon": "^4.1.1",
     "unexpected": "^10.0.1",
     "unexpected-react-shallow": "^0.6.2",
     "watch-run": "^1.2.2"
