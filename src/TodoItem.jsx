@@ -18,12 +18,12 @@ var TodoItem = React.createClass({
 
 	handleEdit: function () {
 		this.props.onEdit();
-		this.setState({editText: this.props.todo.title});
+		this.setState({editText: this.props.title});
 	},
 
 	handleKeyDown: function (event) {
 		if (event.which === ESCAPE_KEY) {
-			this.setState({editText: this.props.todo.title});
+			this.setState({editText: this.props.title});
 			this.props.onCancel(event);
 		} else if (event.which === ENTER_KEY) {
 			this.handleSubmit(event);
@@ -35,7 +35,7 @@ var TodoItem = React.createClass({
 	},
 
 	getInitialState: function () {
-		return {editText: this.props.todo.title};
+		return {editText: this.props.title};
 	},
 
 	/**
@@ -70,18 +70,18 @@ var TodoItem = React.createClass({
 	render: function () {
 		return (
 			<li className={classNames({
-				completed: this.props.todo.completed,
+				completed: this.props.completed,
 				editing: this.props.editing
 			})}>
 				<div className="view">
 					<input
 						className="toggle"
 						type="checkbox"
-						checked={this.props.todo.completed}
+						checked={this.props.completed}
 						onChange={this.props.onToggle}
 					/>
 					<label onDoubleClick={this.handleEdit}>
-						{this.props.todo.title}
+						{this.props.title}
 					</label>
 					<button className="destroy" onClick={this.props.onDestroy} />
 				</div>

@@ -88,7 +88,8 @@ var TodoApp = React.createClass({
 			return (
 				<TodoItem
 					key={todo.id}
-					todo={todo}
+					title={todo.title}
+					completed={todo.completed}
 					onToggle={this.toggle.bind(this, todo)}
 					onDestroy={this.destroy.bind(this, todo)}
 					onEdit={this.edit.bind(this, todo)}
