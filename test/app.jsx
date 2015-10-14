@@ -44,8 +44,6 @@ describe('TodoMVC App', function() {
     it('allows an item to be added to the list', function() {
       // given
       var todoApp = <TodoApp model={model}/>;
-// TODO: remove this Travis debug line
-console.log($(todoApp).dom().outerHTML);
       var inputBox = $(todoApp).find('input.new-todo').dom();
 
       // when
