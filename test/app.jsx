@@ -30,11 +30,11 @@ describe('TodoMVC App', function() {
 
     it('only renders a header when there are no items in the list', function() {
       // given
-      renderer.render(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model}/>);
 
       // then
       // TODO: upgrade to 'with all children' once <https://github.com/bruderstein/unexpected-react-shallow/issues/8> is resolved
-      expect(renderer, 'to have rendered',
+      expect(todoApp.shallowRender()[0], 'to have rendered',
         <Container componentName="TodoApp">
           <TodoHeader/>
         </Container>
@@ -43,16 +43,15 @@ describe('TodoMVC App', function() {
 
     it('allows an item to be added to the list', function() {
       // given
-      var todoApp = <TodoApp model={model}/>;
+      var todoApp = $(<TodoApp model={model}/>);
 
       // when
-      var inputBox = $(todoApp).render().find('input.new-todo').dom();
+      var inputBox = todoApp.render().find('input.new-todo').dom();
       inputBox.value = 'Stuff';
       ReactTestUtils.Simulate.keyDown(inputBox, {key: 'Enter', keyCode: 13, which: 13});
 
       // then
-      renderer.render(todoApp);
-      expect(renderer, 'to have rendered with all children',
+      expect(todoApp.shallowRender()[0], 'to have rendered with all children',
         <Container componentName="TodoApp">
           <TodoHeader/>
           <TodoItems activeTodoCount={1}>
@@ -72,31 +71,29 @@ describe('TodoMVC App', function() {
 
     it('updates the summary information when an items checkbox is ticked', function() {
       // given
-      var todoApp = <TodoApp model={model}/>;
+      var todoApp = $(<TodoApp model={model}/>);
 
       // when
-      var checkbox = $(todoApp).render().find('.todo-list .toggle').dom();
+      var checkbox = todoApp.render().find('.todo-list .toggle').dom();
       ReactTestUtils.Simulate.change(checkbox, {'target': {'checked': true}});
 
       // then
-      renderer.render(todoApp);
-      expect(renderer, 'to contain',
+      expect(todoApp.shallowRender()[0], 'to contain',
           <TodoFooter count={0} completedCount={1} nowShowing="all"/>
       );
     });
 
     it('removes the items list and footer when the last item is removed', function() {
       // given
-      var todoApp = <TodoApp model={model}/>;
+      var todoApp = $(<TodoApp model={model}/>);
 
       // when
-      var destroyButton = $(todoApp).render().find('.destroy').dom();
+      var destroyButton = todoApp.render().find('.destroy').dom();
       ReactTestUtils.Simulate.click(destroyButton);
 
       // then
-      renderer.render(todoApp);
       // TODO: upgrade to 'with all children' once <https://github.com/bruderstein/unexpected-react-shallow/issues/8> is resolved
-      expect(renderer, 'to have rendered',
+      expect(todoApp.shallowRender()[0], 'to have rendered',
         <Container componentName="TodoApp">
           <TodoHeader/>
         </Container>
@@ -106,15 +103,14 @@ describe('TodoMVC App', function() {
     //failing - item is still displayed
     xit('hides active items when the completed filter is clicked', function() {
       // given
-      var todoApp = <TodoApp model={model}/>;
+      var todoApp = $(<TodoApp model={model}/>);
 
       // when
-      var completedFilter = $(todoApp).find('a[href="#/completed"]').dom();
+      var completedFilter = todoApp.find('a[href="#/completed"]').dom();
       ReactTestUtils.Simulate.click(completedFilter);
 
       // then
-      renderer.render(todoApp);
-      expect(renderer, 'to have rendered with all children',
+      expect(todoApp.shallowRender()[0], 'to have rendered with all children',
         <Container componentName="TodoApp">
           <TodoHeader/>
           <TodoFooter count={1} completedCount={0} nowShowing="completed"/>
