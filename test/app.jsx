@@ -70,8 +70,7 @@ describe('TodoMVC App', function() {
       model.addTodo('Stuff');
     });
 
-    //simulate change not working on checkbox
-    xit('updates the summary information when an items checkbox is ticked', function() {
+    it('updates the summary information when an items checkbox is ticked', function() {
       // given
       var todoApp = <TodoApp model={model}/>;
 
