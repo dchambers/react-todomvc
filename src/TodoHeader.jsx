@@ -19,7 +19,7 @@ var TodoHeader = React.createClass({
 			ReactDOM.findDOMNode(this.refs.newField).value = '';
 		}
 	},
-	
+
 	render: function () {
 		return (
       <header className="header">
