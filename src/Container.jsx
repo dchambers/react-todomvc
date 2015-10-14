@@ -5,7 +5,7 @@ var React = require('react');
 var Container = React.createClass({
 	render: function () {
 		return (
-			<div class="{this.props.componentName}">{this.props.children}</div>
+			<div className="{this.props.componentName}">{this.props.children}</div>
 		);
 	}
 });
