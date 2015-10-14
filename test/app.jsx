@@ -23,7 +23,7 @@ describe('TodoMVC App', function() {
     localStorage.clear();
   });
 
-  describe('when there Todo list start off empty', function() {
+  describe('when the Todo list start off empty', function() {
     beforeEach(function() {
       model = new TodoModel();
     });
@@ -67,15 +67,59 @@ describe('TodoMVC App', function() {
   describe('when the Todo list starts off with a single completed item', function() {
     beforeEach(function() {
       model = new TodoModel();
-      model.todos = [{id:'#1', title:'Stuff', completed:true}];
+      model.addTodo("Stuff");
     });
 
-    it('allows the item to be deleted', function() {
-      // TODO...
+    //simulate change not working on checkbox
+    xit('updates the summary information when an items checkbox is ticked', function() {
+      // given
+      var todoApp = <TodoApp model={model}/>;
+
+      // when
+      var checkbox = $(todoApp).find('.todo-list .toggle').dom();
+      ReactTestUtils.Simulate.change(checkbox, {"target": {"checked": true}});
+
+      // then
+      renderer.render(todoApp);
+      expect(renderer, 'to contain',
+          <TodoFooter count={0} completedCount={1} nowShowing="all"/>
+      );
     });
 
-    it('removes the item if "clear all completed" is clicked', function() {
-      // TODO...
+    it('removes the items list and footer when the last item is removed', function() {
+      //given
+      var todoApp = <TodoApp model={model}/>;
+
+      // when
+      var destroyButton = $(todoApp).find('.destroy').dom();
+      ReactTestUtils.Simulate.click(destroyButton);
+
+      // then
+      renderer.render(todoApp);
+      expect(renderer, 'to have rendered',
+        <Container componentName="TodoApp">
+          <TodoHeader/>
+        </Container>
+      );
     });
+
+    //failing - item is still displayed
+    xit('hides active items when the completed filter is clicked', function() {
+      //given
+      var todoApp = <TodoApp model={model}/>;
+
+      // when
+      var completedFilter = $(todoApp).find('a[href="#/completed"]').dom();
+      ReactTestUtils.Simulate.click(completedFilter);
+
+      // then
+          renderer.render(todoApp);
+          expect(renderer, 'to have rendered with all children',
+            <Container componentName="TodoApp">
+              <TodoHeader/>
+              <TodoFooter count={1} completedCount={0} nowShowing="completed"/>
+            </Container>
+          );
+     });
   });
 });
