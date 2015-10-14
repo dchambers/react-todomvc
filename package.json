@@ -55,7 +55,7 @@
     "react-addons-test-utils": "^0.14.0",
     "teaspoon": "^5.0.0",
     "unexpected": "^10.0.1",
-    "unexpected-react-shallow": "^0.6.2",
+    "unexpected-react-shallow": "^0.7.0",
     "watch-run": "^1.2.2"
   }
 }

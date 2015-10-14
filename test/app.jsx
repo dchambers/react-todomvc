@@ -31,8 +31,7 @@ describe('TodoMVC App', function() {
       var todoApp = $(<TodoApp model={model}/>);
 
       // then
-      // TODO: upgrade to 'with all children' once <https://github.com/bruderstein/unexpected-react-shallow/issues/8> is resolved
-      expect(todoApp.shallowRender()[0], 'to have rendered',
+      expect(todoApp.shallowRender()[0], 'to have rendered with all children',
         <Container componentName="TodoApp">
           <TodoHeader/>
         </Container>
@@ -88,8 +87,7 @@ describe('TodoMVC App', function() {
       todoApp.render().find('.destroy').trigger('click');
 
       // then
-      // TODO: upgrade to 'with all children' once <https://github.com/bruderstein/unexpected-react-shallow/issues/8> is resolved
-      expect(todoApp.shallowRender()[0], 'to have rendered',
+      expect(todoApp.shallowRender()[0], 'to have rendered with all children',
         <Container componentName="TodoApp">
           <TodoHeader/>
         </Container>
