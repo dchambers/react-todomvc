@@ -44,9 +44,9 @@ describe('TodoMVC App', function() {
     it('allows an item to be added to the list', function() {
       // given
       var todoApp = <TodoApp model={model}/>;
-      var inputBox = $(todoApp).find('input.new-todo').dom();
 
       // when
+      var inputBox = $(todoApp).find('input.new-todo').dom();
       inputBox.value = 'Stuff';
       ReactTestUtils.Simulate.keyDown(inputBox, {key: 'Enter', keyCode: 13, which: 13});
 
@@ -64,7 +64,7 @@ describe('TodoMVC App', function() {
     });
   })
 
-  describe('when the Todo list starts off with a single completed item', function() {
+  describe('when the Todo list starts off with a single active item', function() {
     beforeEach(function() {
       model = new TodoModel();
       model.addTodo("Stuff");
@@ -87,7 +87,7 @@ describe('TodoMVC App', function() {
     });
 
     it('removes the items list and footer when the last item is removed', function() {
-      //given
+      // given
       var todoApp = <TodoApp model={model}/>;
 
       // when
@@ -96,6 +96,7 @@ describe('TodoMVC App', function() {
 
       // then
       renderer.render(todoApp);
+      // TODO: upgrade to 'with all children' once <https://github.com/bruderstein/unexpected-react-shallow/issues/8> is resolved
       expect(renderer, 'to have rendered',
         <Container componentName="TodoApp">
           <TodoHeader/>
@@ -105,7 +106,7 @@ describe('TodoMVC App', function() {
 
     //failing - item is still displayed
     xit('hides active items when the completed filter is clicked', function() {
-      //given
+      // given
       var todoApp = <TodoApp model={model}/>;
 
       // when
@@ -113,13 +114,13 @@ describe('TodoMVC App', function() {
       ReactTestUtils.Simulate.click(completedFilter);
 
       // then
-          renderer.render(todoApp);
-          expect(renderer, 'to have rendered with all children',
-            <Container componentName="TodoApp">
-              <TodoHeader/>
-              <TodoFooter count={1} completedCount={0} nowShowing="completed"/>
-            </Container>
-          );
+      renderer.render(todoApp);
+      expect(renderer, 'to have rendered with all children',
+        <Container componentName="TodoApp">
+          <TodoHeader/>
+          <TodoFooter count={1} completedCount={0} nowShowing="completed"/>
+        </Container>
+      );
      });
   });
 });
