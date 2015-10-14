@@ -17,42 +17,65 @@ var TodoModel = require('../src/TodoModel.js');
 
 
 describe('TodoMVC App', function() {
+  var model;
+
   beforeEach(function() {
     localStorage.clear();
   });
 
-  it('only renders a header when there are no items in the list', function() {
-    // given
-    renderer.render(<TodoApp model={new TodoModel()}/>);
+  describe('when there Todo list start off empty', function() {
+    beforeEach(function() {
+      model = new TodoModel();
+    });
 
-    // then
-    // TODO: upgrade to 'with all children' once <https://github.com/bruderstein/unexpected-react-shallow/issues/8> is resolved
-    expect(renderer, 'to have rendered',
-      <Container componentName="TodoApp">
-        <TodoHeader/>
-      </Container>
-    );
-  });
+    it('only renders a header when there are no items in the list', function() {
+      // given
+      renderer.render(<TodoApp model={model}/>);
 
-  it('allows an item to be added to the list', function() {
-    // given
-    var todoApp = <TodoApp model={new TodoModel()}/>;
-    var inputBox = $(todoApp).find('input.new-todo').dom();
+      // then
+      // TODO: upgrade to 'with all children' once <https://github.com/bruderstein/unexpected-react-shallow/issues/8> is resolved
+      expect(renderer, 'to have rendered',
+        <Container componentName="TodoApp">
+          <TodoHeader/>
+        </Container>
+      );
+    });
 
-    // when
-    inputBox.value = 'Stuff';
-    ReactTestUtils.Simulate.keyDown(inputBox, {key: 'Enter', keyCode: 13, which: 13});
+    it('allows an item to be added to the list', function() {
+      // given
+      var todoApp = <TodoApp model={model}/>;
+      var inputBox = $(todoApp).find('input.new-todo').dom();
 
-    // then
-    renderer.render(todoApp);
-    expect(renderer, 'to have rendered with all children',
-      <Container componentName="TodoApp">
-        <TodoHeader/>
-        <TodoItems activeTodoCount={1}>
-          <TodoItem title="Stuff" completed={false}/>
-        </TodoItems>
-        <TodoFooter count={1} completedCount={0} nowShowing="all"/>
-      </Container>
-    );
+      // when
+      inputBox.value = 'Stuff';
+      ReactTestUtils.Simulate.keyDown(inputBox, {key: 'Enter', keyCode: 13, which: 13});
+
+      // then
+      renderer.render(todoApp);
+      expect(renderer, 'to have rendered with all children',
+        <Container componentName="TodoApp">
+          <TodoHeader/>
+          <TodoItems activeTodoCount={1}>
+            <TodoItem title="Stuff" completed={false}/>
+          </TodoItems>
+          <TodoFooter count={1} completedCount={0} nowShowing="all"/>
+        </Container>
+      );
+    });
+  })
+
+  describe('when the Todo list starts off with a single completed item', function() {
+    beforeEach(function() {
+      model = new TodoModel();
+      model.todos = [{id:'#1', title:'Stuff', completed:true}];
+    });
+
+    it('allows the item to be deleted', function() {
+      // TODO...
+    });
+
+    it('removes the item if "clear all completed" is clicked', function() {
+      // TODO...
+    });
   });
 });
