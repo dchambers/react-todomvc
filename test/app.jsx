@@ -46,7 +46,7 @@ describe('TodoMVC App', function() {
       var todoApp = <TodoApp model={model}/>;
 
       // when
-      var inputBox = $(todoApp).find('input.new-todo').dom();
+      var inputBox = $(todoApp).render().find('input.new-todo').dom();
       inputBox.value = 'Stuff';
       ReactTestUtils.Simulate.keyDown(inputBox, {key: 'Enter', keyCode: 13, which: 13});
 
@@ -76,7 +76,7 @@ describe('TodoMVC App', function() {
       var todoApp = <TodoApp model={model}/>;
 
       // when
-      var checkbox = $(todoApp).find('.todo-list .toggle').dom();
+      var checkbox = $(todoApp).render().find('.todo-list .toggle').dom();
       ReactTestUtils.Simulate.change(checkbox, {'target': {'checked': true}});
 
       // then
@@ -91,7 +91,7 @@ describe('TodoMVC App', function() {
       var todoApp = <TodoApp model={model}/>;
 
       // when
-      var destroyButton = $(todoApp).find('.destroy').dom();
+      var destroyButton = $(todoApp).render().find('.destroy').dom();
       ReactTestUtils.Simulate.click(destroyButton);
 
       // then
