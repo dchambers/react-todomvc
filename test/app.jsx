@@ -17,6 +17,10 @@ var TodoModel = require('../src/TodoModel.js');
 
 
 describe('TodoMVC App', function() {
+  beforeEach(function() {
+    localStorage.clear();
+  });
+
   it('only renders a header when there are no items in the list', function() {
     // given
     renderer.render(<TodoApp model={new TodoModel()}/>);
