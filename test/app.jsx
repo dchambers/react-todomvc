@@ -22,6 +22,7 @@ describe('TodoMVC App', function() {
     renderer.render(<TodoApp model={new TodoModel()}/>);
 
     // then
+    // TODO: upgrade to 'with all children' once <https://github.com/bruderstein/unexpected-react-shallow/issues/8> is resolved
     expect(renderer, 'to have rendered',
       <Container componentName="TodoApp">
         <TodoHeader/>
@@ -40,7 +41,7 @@ describe('TodoMVC App', function() {
 
     // then
     renderer.render(todoApp);
-    expect(renderer, 'to have rendered',
+    expect(renderer, 'to have rendered with all children',
       <Container componentName="TodoApp">
         <TodoHeader/>
         <TodoItems activeTodoCount={1}>
