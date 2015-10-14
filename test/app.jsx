@@ -4,9 +4,8 @@ var $ = require('teaspoon');
 var unexpected = require('unexpected');
 var unexpectedReactShallow = require('unexpected-react-shallow');
 var expect = unexpected.clone().installPlugin(unexpectedReactShallow);
+
 var React = require('react');
-var ReactTestUtils = require('react-addons-test-utils');
-var renderer = ReactTestUtils.createRenderer();
 var TodoApp = require('../src/TodoApp.jsx');
 var Container = require('../src/Container.jsx');
 var TodoHeader = require('../src/TodoHeader.jsx');
@@ -14,7 +13,6 @@ var TodoItems = require('../src/TodoItems.jsx');
 var TodoItem = require('../src/TodoItem.jsx');
 var TodoFooter = require('../src/TodoFooter.jsx');
 var TodoModel = require('../src/TodoModel.js');
-
 
 describe('TodoMVC App', function() {
   var model;
@@ -46,9 +44,9 @@ describe('TodoMVC App', function() {
       var todoApp = $(<TodoApp model={model}/>);
 
       // when
-      var inputBox = todoApp.render().find('input.new-todo').dom();
-      inputBox.value = 'Stuff';
-      ReactTestUtils.Simulate.keyDown(inputBox, {key: 'Enter', keyCode: 13, which: 13});
+      var inputBox = todoApp.render().find('input.new-todo');
+      inputBox.dom().value = 'Stuff';
+      inputBox.trigger('keyDown', {key: 'Enter', keyCode: 13, which: 13});
 
       // then
       expect(todoApp.shallowRender()[0], 'to have rendered with all children',
@@ -74,8 +72,7 @@ describe('TodoMVC App', function() {
       var todoApp = $(<TodoApp model={model}/>);
 
       // when
-      var checkbox = todoApp.render().find('.todo-list .toggle').dom();
-      ReactTestUtils.Simulate.change(checkbox, {'target': {'checked': true}});
+      todoApp.render().find('.todo-list .toggle').trigger('change', {'target': {'checked': true}});
 
       // then
       expect(todoApp.shallowRender()[0], 'to contain',
@@ -88,8 +85,7 @@ describe('TodoMVC App', function() {
       var todoApp = $(<TodoApp model={model}/>);
 
       // when
-      var destroyButton = todoApp.render().find('.destroy').dom();
-      ReactTestUtils.Simulate.click(destroyButton);
+      todoApp.render().find('.destroy').trigger('click');
 
       // then
       // TODO: upgrade to 'with all children' once <https://github.com/bruderstein/unexpected-react-shallow/issues/8> is resolved
@@ -100,14 +96,13 @@ describe('TodoMVC App', function() {
       );
     });
 
-    //failing - item is still displayed
+    //failing - item is still displayed (probably becaause simulated events have no effect on links)
     xit('hides active items when the completed filter is clicked', function() {
       // given
       var todoApp = $(<TodoApp model={model}/>);
 
       // when
-      var completedFilter = todoApp.find('a[href="#/completed"]').dom();
-      ReactTestUtils.Simulate.click(completedFilter);
+      todoApp.find('a[href="#/completed"]').trigger('click');
 
       // then
       expect(todoApp.shallowRender()[0], 'to have rendered with all children',
