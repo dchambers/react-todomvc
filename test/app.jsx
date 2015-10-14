@@ -67,7 +67,7 @@ describe('TodoMVC App', function() {
   describe('when the Todo list starts off with a single active item', function() {
     beforeEach(function() {
       model = new TodoModel();
-      model.addTodo("Stuff");
+      model.addTodo('Stuff');
     });
 
     //simulate change not working on checkbox
@@ -77,7 +77,7 @@ describe('TodoMVC App', function() {
 
       // when
       var checkbox = $(todoApp).find('.todo-list .toggle').dom();
-      ReactTestUtils.Simulate.change(checkbox, {"target": {"checked": true}});
+      ReactTestUtils.Simulate.change(checkbox, {'target': {'checked': true}});
 
       // then
       renderer.render(todoApp);
