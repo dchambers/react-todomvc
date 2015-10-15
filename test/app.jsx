@@ -69,6 +69,15 @@ describe('TodoMVC App', function() {
         </Container>
       );
     });
+
+    //TODO
+    xit('does not add an item to the list when an empty string is submitted', function() {
+      // given
+      var todoApp = $(<TodoApp model={model}/>);
+
+      // when
+      // then
+    });
   })
 
   describe('when the Todo list starts off with a single active item', function() {
@@ -105,7 +114,8 @@ describe('TodoMVC App', function() {
       );
     });
 
-    xit('hides active items when the completed filter is clicked', function() {
+    //TODO - fix
+    xit('updates the footer information when the completed filter is clicked', function() {
       // given
       var todoApp = $(<TodoApp model={model} router={router}/>);
 
@@ -115,8 +125,112 @@ describe('TodoMVC App', function() {
 
       // then
       expect(todoApp.shallowRender()[0], 'to contain',
-        <TodoFooter count={1} completedCount={0} nowShowing="completed"/>
+        <TodoFooter nowShowing="completed"/>
       );
+    });
+    //TODO
+    xit('newly added items go to the bottom of the list', function() {
+      // given
+      var todoApp = $(<TodoApp model={model}/>);
+
+      // when
+      // then
      });
+
+    //TODO
+     xit('displays a Clear Completed button when all items are marked as done', function() {
+      // given
+      var todoApp = $(<TodoApp model={model}/>);
+
+      // when
+      // then
+    });
+
   });
+
+  describe('when the Todo list contains multiple items', function() {
+    beforeEach(function() {
+      model = new TodoModel();
+      model.addTodo('Item-1');
+      model.addTodo('Item-2');
+      model.addTodo('Item-3');
+    });
+
+    xit('hides active items when the completed filter is clicked', function() {
+      // given
+      var todoApp = $(<TodoApp model={model}/>);
+
+      // when
+      todoApp.find('a[href="#/completed"]').trigger('click');
+
+      // then
+      expect(todoApp.shallowRender()[0], 'to have rendered with all children',
+        <Container componentName="TodoApp">
+          <TodoHeader/>
+          <TodoFooter count={1} completedCount={0} nowShowing="completed"/>
+        </Container>
+      );
+    });
+
+    //TODO
+    xit('marks all items as done when the done when the toggle all arrow is clicked', function() {
+      // given
+      var todoApp = $(<TodoApp model={model}/>);
+
+      // when
+      // then
+    });
+
+  });
+
+  describe('when the Todo list contains a mixture of completed and active items', function() {
+    beforeEach(function() {
+      model = new TodoModel();
+      model.addTodo('Item-1');
+      model.addTodo('Item-2');
+      model.addTodo('Item-3');
+      //TODO - mark one as completed
+    });
+
+    xit('completed items are hidden from view when the active filter is clicked', function() {
+      // given
+      var todoApp = $(<TodoApp model={model}/>);
+
+      // when
+      // then
+    });
+
+    xit('completed items are hidden from view when the active filter is clicked', function() {
+      // given
+      var todoApp = $(<TodoApp model={model}/>);
+
+      // when
+      // then
+    });
+
+    xit('removes only completed items when Clear Completed is clicked', function() {
+      // given
+      var todoApp = $(<TodoApp model={model}/>);
+
+      // when
+      // then
+    });
+
+  });
+
+  describe('when an active filter has been applied', function() {
+    beforeEach(function() {
+      model = new TodoModel();
+      //TODO - selectd the active filter
+    });
+
+    xit('remembers filter setting when an item is added to an empty list', function() {
+      // given
+      var todoApp = $(<TodoApp model={model}/>);
+
+      // when
+      // then
+    });
+  });
+
 });
