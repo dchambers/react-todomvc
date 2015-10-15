@@ -47,7 +47,8 @@ var TodoItem = React.createClass({
 	 */
 	shouldComponentUpdate: function (nextProps, nextState) {
 		return (
-			nextProps.todo !== this.props.todo ||
+			nextProps.title !== this.props.title ||
+			nextProps.completed !== this.props.completed ||
 			nextProps.editing !== this.props.editing ||
 			nextState.editText !== this.state.editText
 		);
