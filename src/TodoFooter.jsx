@@ -32,7 +32,7 @@ var TodoFooter = React.createClass({
 					<li>
 						<a
 							href="#/"
-							className={cx({selected: nowShowing === ALL_TODOS})}>
+							className={cx('all', {selected: nowShowing === ALL_TODOS})}>
 								All
 						</a>
 					</li>
@@ -40,7 +40,7 @@ var TodoFooter = React.createClass({
 					<li>
 						<a
 							href="#/active"
-							className={cx({selected: nowShowing === ACTIVE_TODOS})}>
+							className={cx('active', {selected: nowShowing === ACTIVE_TODOS})}>
 								Active
 						</a>
 					</li>
@@ -48,7 +48,7 @@ var TodoFooter = React.createClass({
 					<li>
 						<a
 							href="#/completed"
-							className={cx({selected: nowShowing === COMPLETED_TODOS})}>
+							className={cx('completed', {selected: nowShowing === COMPLETED_TODOS})}>
 								Completed
 						</a>
 					</li>
