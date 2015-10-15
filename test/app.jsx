@@ -71,19 +71,28 @@ describe('TodoMVC App', function() {
     });
 
     //TODO
-    xit('does not add an item to the list when an empty string is submitted', function() {
+    it('does not add an item to the list when an empty string is submitted', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
+      var inputBox = todoApp.render().find('input.new-todo');
+      inputBox.dom().value = '';
+      inputBox.trigger('keyDown', {key: 'Enter', keyCode: 13, which: 13});
+
       // then
+      expect(todoApp.shallowRender()[0], 'to have rendered with all children',
+        <Container componentName="TodoApp">
+          <TodoHeader/>
+        </Container>
+      );
     });
   })
 
   describe('when the Todo list starts off with a single active item', function() {
     beforeEach(function() {
       model = new TodoModel();
-      model.addTodo('Stuff');
+      model.addTodo('Item-1');
     });
 
     it('updates the summary information when an items checkbox is ticked', function() {
@@ -128,17 +137,27 @@ describe('TodoMVC App', function() {
         <TodoFooter nowShowing="completed"/>
       );
     });
-    //TODO
-    xit('newly added items go to the bottom of the list', function() {
+
+    it('newly added items go to the bottom of the list', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
+      var inputBox = todoApp.render().find('input.new-todo');
+      inputBox.dom().value = 'New-item';
+      inputBox.trigger('keyDown', {key: 'Enter', keyCode: 13, which: 13});
+
       // then
+      expect(todoApp.shallowRender()[0], 'to contain',
+          <TodoItems activeTodoCount={2}>
+            <TodoItem title="Item-1" completed={false}/>
+            <TodoItem title="New-item" completed={false}/>
+          </TodoItems>
+      );
      });
 
     //TODO
-     xit('displays a Clear Completed button when all items are marked as done', function() {
+     xit('displays a Clear Completed button when at least one item is marked as done', function() {
       // given
       var todoApp = $(<TodoApp model={model}/>);
 
