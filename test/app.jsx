@@ -6,6 +6,7 @@ var unexpectedReactShallow = require('unexpected-react-shallow');
 var expect = unexpected.clone().installPlugin(unexpectedReactShallow);
 
 var React = require('react');
+var director = require('director');
 var TodoApp = require('../src/TodoApp.jsx');
 var Container = require('../src/Container.jsx');
 var TodoHeader = require('../src/TodoHeader.jsx');
@@ -14,8 +15,17 @@ var TodoItem = require('../src/TodoItem.jsx');
 var TodoFooter = require('../src/TodoFooter.jsx');
 var TodoModel = require('../src/TodoModel.js');
 
+function extractRoute(linkElem) {
+  return linkElem.href.replace(/.*#/, '');
+}
+
+// TODO: find out why `director.Router.prototype` has less methods when run in Node.js
+if(!director.Router.prototype.init) {
+  director.Router.prototype.init = function() {};
+}
+
 describe('TodoMVC App', function() {
-  var model;
+  var model, router;
 
   beforeEach(function() {
     localStorage.clear();
@@ -24,11 +34,12 @@ describe('TodoMVC App', function() {
   describe('when the Todo list start off empty', function() {
     beforeEach(function() {
       model = new TodoModel();
+      router = new director.Router();
     });
 
     it('only renders a header when there are no items in the list', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // then
       expect(todoApp.shallowRender()[0], 'to have rendered with all children',
@@ -40,7 +51,7 @@ describe('TodoMVC App', function() {
 
     it('allows an item to be added to the list', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       var inputBox = todoApp.render().find('input.new-todo');
@@ -68,7 +79,7 @@ describe('TodoMVC App', function() {
 
     it('updates the summary information when an items checkbox is ticked', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       todoApp.render().find('.todo-list .toggle').trigger('change', {'target': {'checked': true}});
@@ -81,7 +92,7 @@ describe('TodoMVC App', function() {
 
     it('removes the items list and footer when the last item is removed', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       todoApp.render().find('.destroy').trigger('click');
@@ -94,20 +105,17 @@ describe('TodoMVC App', function() {
       );
     });
 
-    //failing - item is still displayed (probably becaause simulated events have no effect on links)
     xit('hides active items when the completed filter is clicked', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.find('a[href="#/completed"]').trigger('click');
+      var route = extractRoute(todoApp.render().find('a.completed').dom());
+      router.dispatch('on', route);
 
       // then
-      expect(todoApp.shallowRender()[0], 'to have rendered with all children',
-        <Container componentName="TodoApp">
-          <TodoHeader/>
-          <TodoFooter count={1} completedCount={0} nowShowing="completed"/>
-        </Container>
+      expect(todoApp.shallowRender()[0], 'to contain',
+        <TodoFooter count={1} completedCount={0} nowShowing="completed"/>
       );
      });
   });

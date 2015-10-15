@@ -4,18 +4,11 @@ var ALL_TODOS = 'all';
 var ACTIVE_TODOS = 'active';
 var COMPLETED_TODOS = 'completed';
 var React = require('react');
-var director = require('director');
 var Container = require('./Container.jsx');
 var TodoHeader = require('./TodoHeader.jsx');
 var TodoFooter = require('./TodoFooter.jsx');
 var TodoItems = require('./TodoItems.jsx');
 var TodoItem = require('./TodoItem.jsx');
-
-// TODO: find out why `director.Router.prototype` has less methods when run in Node.js
-// TODO: consider whether routing should be done by the app rather than a React component anyway
-if(!director.Router.prototype.init) {
-	director.Router.prototype.init = function() {};
-}
 
 var TodoApp = React.createClass({
 	getInitialState: function () {
@@ -27,12 +20,12 @@ var TodoApp = React.createClass({
 
 	componentDidMount: function () {
 		var setState = this.setState;
-		var router = new director.Router({
+		this.props.router.mount({
 			'/': setState.bind(this, {nowShowing: ALL_TODOS}),
 			'/active': setState.bind(this, {nowShowing: ACTIVE_TODOS}),
 			'/completed': setState.bind(this, {nowShowing: COMPLETED_TODOS})
 		});
-		router.init('/');
+		this.props.router.init('/');
 	},
 
 	addTodo: function (todo) {
