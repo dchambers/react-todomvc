@@ -156,13 +156,19 @@ describe('TodoMVC App', function() {
       );
      });
 
-    //TODO
+    //TODO - fix
      xit('displays a Clear Completed button when at least one item is marked as done', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      // then
+      var route = extractRoute(todoApp.render().find('a.completed').dom());
+      router.dispatch('on', route);
+
+      // then TODO this needs the model to change to make this testible, e.g. having a ClearCompleteVisible property
+      expect(todoApp.shallowRender()[0], 'to contain',
+        <TodoFooter count={1} completedCount={0} nowShowing="completed"/>
+      );
     });
 
   });
@@ -192,12 +198,21 @@ describe('TodoMVC App', function() {
     });
 
     //TODO
-    xit('marks all items as done when the done when the toggle all arrow is clicked', function() {
+    it('marks all items as done when the done when the toggle all arrow is clicked', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
+      todoApp.render().find('.toggle-all').trigger('change', {'target': {'checked': true}});
+
       // then
+      expect(todoApp.shallowRender()[0], 'to contain',
+          <TodoItems activeTodoCount={0}>
+            <TodoItem title="Item-1" completed={true}/>
+            <TodoItem title="Item-2" completed={true}/>
+            <TodoItem title="Item-3" completed={true}/>
+          </TodoItems>
+      );
     });
 
   });
@@ -208,10 +223,10 @@ describe('TodoMVC App', function() {
       model.addTodo('Item-1');
       model.addTodo('Item-2');
       model.addTodo('Item-3');
-      //TODO - mark one as completed
+      model.todos[1].completed = true;
     });
 
-    xit('completed items are hidden from view when the active filter is clicked', function() {
+    it('completed items are hidden from view when the active filter is clicked', function() {
       // given
       var todoApp = $(<TodoApp model={model}/>);
 
@@ -227,12 +242,20 @@ describe('TodoMVC App', function() {
       // then
     });
 
-    xit('removes only completed items when Clear Completed is clicked', function() {
+    it('removes only completed items when Clear Completed is clicked', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
+      todoApp.render().find('.clear-completed').trigger('click');
+     
       // then
+      expect(todoApp.shallowRender()[0], 'to contain',
+          <TodoItems activeTodoCount={2}>
+            <TodoItem title="Item-1" completed={false}/>
+            <TodoItem title="Item-3" completed={false}/>
+          </TodoItems>
+      );
     });
 
   });
