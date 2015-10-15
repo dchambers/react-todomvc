@@ -28,13 +28,13 @@ describe('TodoMVC App', function() {
   var model, router;
 
   beforeEach(function() {
+    router = new director.Router();
     localStorage.clear();
   });
 
   describe('when the Todo list start off empty', function() {
     beforeEach(function() {
       model = new TodoModel();
-      router = new director.Router();
     });
 
     it('only renders a header when there are no items in the list', function() {
