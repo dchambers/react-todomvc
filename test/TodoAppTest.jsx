@@ -70,7 +70,6 @@ describe('TodoMVC App', function() {
       );
     });
 
-    //TODO
     it('does not add an item to the list when an empty string is submitted', function() {
       // given
       var todoApp = $(<TodoApp model={model} router={router}/>);
@@ -123,7 +122,6 @@ describe('TodoMVC App', function() {
       );
     });
 
-    //TODO - fix
     xit('updates the footer information when the completed filter is clicked', function() {
       // given
       var todoApp = $(<TodoApp model={model} router={router}/>);
@@ -156,7 +154,6 @@ describe('TodoMVC App', function() {
       );
      });
 
-    //TODO - fix
      xit('displays a Clear Completed button when at least one item is marked as done', function() {
       // given
       var todoApp = $(<TodoApp model={model} router={router}/>);
@@ -165,7 +162,8 @@ describe('TodoMVC App', function() {
       var route = extractRoute(todoApp.render().find('a.completed').dom());
       router.dispatch('on', route);
 
-      // then TODO this needs the model to change to make this testible, e.g. having a ClearCompleteVisible property
+      // then
+      // TODO this needs the model to change to make this testible, e.g. having a ClearCompleteVisible property
       expect(todoApp.shallowRender()[0], 'to contain',
         <TodoFooter count={1} completedCount={0} nowShowing="completed"/>
       );
@@ -197,7 +195,6 @@ describe('TodoMVC App', function() {
       );
     });
 
-    //TODO
     it('marks all items as done when the done when the toggle all arrow is clicked', function() {
       // given
       var todoApp = $(<TodoApp model={model} router={router}/>);
@@ -248,7 +245,7 @@ describe('TodoMVC App', function() {
 
       // when
       todoApp.render().find('.clear-completed').trigger('click');
-     
+
       // then
       expect(todoApp.shallowRender()[0], 'to contain',
           <TodoItems activeTodoCount={2}>
@@ -257,13 +254,12 @@ describe('TodoMVC App', function() {
           </TodoItems>
       );
     });
-
   });
 
   describe('when an active filter has been applied', function() {
     beforeEach(function() {
       model = new TodoModel();
-      //TODO - selectd the active filter
+      // TODO - select the active filter
     });
 
     xit('remembers filter setting when an item is added to an empty list', function() {
