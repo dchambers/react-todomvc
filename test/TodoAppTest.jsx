@@ -181,18 +181,14 @@ describe('TodoMVC App', function() {
 
     xit('hides active items when the completed filter is clicked', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.find('a[href="#/completed"]').trigger('click');
+      var route = extractRoute(todoApp.render().find('a.completed').dom());
+      router.dispatch('on', route);
 
       // then
-      expect(todoApp.shallowRender()[0], 'to have rendered with all children',
-        <Container componentName="TodoApp">
-          <TodoHeader/>
-          <TodoFooter count={1} completedCount={0} nowShowing="completed"/>
-        </Container>
-      );
+      expect(todoApp.render().find('li.todo-item').length, 'to equal', 0);
     });
 
     it('marks all items as done when the done when the toggle all arrow is clicked', function() {
@@ -223,9 +219,9 @@ describe('TodoMVC App', function() {
       model.todos[1].completed = true;
     });
 
-    it('completed items are hidden from view when the active filter is clicked', function() {
+    xit('completed items are hidden from view when the active filter is clicked', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       // then
@@ -233,7 +229,7 @@ describe('TodoMVC App', function() {
 
     xit('completed items are hidden from view when the active filter is clicked', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       // then
@@ -264,7 +260,7 @@ describe('TodoMVC App', function() {
 
     xit('remembers filter setting when an item is added to an empty list', function() {
       // given
-      var todoApp = $(<TodoApp model={model}/>);
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       // then
