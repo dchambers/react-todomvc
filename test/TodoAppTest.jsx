@@ -283,18 +283,6 @@ describe('TodoMVC App', function() {
       model.addTodo('Item #3');
     });
 
-    it('hides active items when the completed view is used', function() {
-      // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
-      var renderedTodoApp = todoApp.render();
-
-      // when
-      router.dispatch('on', '/completed');
-
-      // then
-      expect(renderedTodoApp.find('li.todo-item').length, 'to equal', 0);
-    });
-
     it('marks all items as done when the toggle-all arrow is clicked', function() {
       // given
       var todoApp = $(<TodoApp model={model} router={router}/>);
@@ -311,14 +299,6 @@ describe('TodoMVC App', function() {
         </TodoItems>
       );
     });
-
-    it('does not display the clear all completed items button if there are no completed items', function() {
-      // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
-
-      // then
-      expect(todoApp.render().find('button.clear-completed').length, 'to equal', 0);
-    });
   });
 
   describe('when the Todo list contains a mixture of completed and active items', function() {
@@ -330,19 +310,54 @@ describe('TodoMVC App', function() {
       model.todos[1].completed = true;
     });
 
-    it('does not show completed items when the active filter is clicked', function() {
+    it('shows all items by default', function() {
       // given
       var todoApp = $(<TodoApp model={model} router={router}/>);
-      var renderedTodoApp = todoApp.render();
+
+      // then
+      expect(todoApp.shallowRender()[0], 'to contain with all children',
+        <TodoItems activeTodoCount={2}>
+          <TodoItem title="Item #1" completed={false}/>
+          <TodoItem title="Item #2" completed={true}/>
+          <TodoItem title="Item #3" completed={false}/>
+        </TodoItems>
+      );
+    });
+
+    it('does not show active items when the completed view is used', function() {
+      // given
+      var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
+      todoApp.shallowRender();
+      router.dispatch('on', '/completed');
+
+      // then
+      expect(todoApp.shallowRender()[0], 'to contain with all children',
+        <TodoItems activeTodoCount={2}>
+          <TodoItem title="Item #2" completed={true}/>
+        </TodoItems>
+      );
+    });
+
+    it('does not show completed items when the active view is used', function() {
+      // given
+      var todoApp = $(<TodoApp model={model} router={router}/>);
+
+      // when
+      todoApp.shallowRender();
       router.dispatch('on', '/active');
 
       // then
-      expect(renderedTodoApp.find('li.todo-item').length, 'to equal', 2);
+      expect(todoApp.shallowRender()[0], 'to contain with all children',
+        <TodoItems activeTodoCount={2}>
+          <TodoItem title="Item #1" completed={false}/>
+          <TodoItem title="Item #3" completed={false}/>
+        </TodoItems>
+      );
     });
 
-    it('removes only completed items when Clear Completed is clicked', function() {
+    it('removes only completed items when clear-completed is clicked', function() {
       // given
       var todoApp = $(<TodoApp model={model} router={router}/>);
 
