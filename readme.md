@@ -4,7 +4,7 @@
 
 > _[React - facebook.github.io/react](http://facebook.github.io/react)_
 
-[![Build Status](https://travis-ci.org/dchambers/react-todomvc.png)](https://travis-ci.org/dchambers/react-todmvc)
+[![Build Status](https://travis-ci.org/dchambers/react-todomvc.png)](https://travis-ci.org/dchambers/react-todomvc)
 
 ## Learning React
 
