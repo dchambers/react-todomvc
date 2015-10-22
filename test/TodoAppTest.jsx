@@ -242,11 +242,12 @@ describe('TodoMVC App', function() {
       );
     });
 
-    xit('updates the footer information when the completed filter is clicked', function() {
+    it('updates the footer information when the completed filter is clicked', function() {
       // given
       var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
+      todoApp.shallowRender();
       router.dispatch('on', '/completed');
 
       // then

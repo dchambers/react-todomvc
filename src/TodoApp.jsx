@@ -18,15 +18,18 @@ var TodoApp = React.createClass({
 		};
 	},
 
-	componentDidMount: function () {
+	componentWillMount: function () {
 		var setState = this.setState;
 		this.props.router.mount({
 			'/': setState.bind(this, {nowShowing: ALL_TODOS}),
 			'/active': setState.bind(this, {nowShowing: ACTIVE_TODOS}),
 			'/completed': setState.bind(this, {nowShowing: COMPLETED_TODOS})
 		});
-		this.props.router.init('/');
 		this.props.model.subscribe(this.forceUpdate.bind(this));
+	},
+
+	componentDidMount: function () {
+		this.props.router.init('/');
 	},
 
 	handleTodoAdded: function (todo) {
