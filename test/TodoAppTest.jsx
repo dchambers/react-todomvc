@@ -328,12 +328,16 @@ describe('TodoMVC App', function() {
       model.todos[1].completed = true;
     });
 
-    xit('does not show completed items when the active filter is clicked', function() {
+    it('does not show completed items when the active filter is clicked', function() {
       // given
       var todoApp = $(<TodoApp model={model} router={router}/>);
+      var renderedTodoApp = todoApp.render();
 
       // when
+      router.dispatch('on', '/active');
+
       // then
+      expect(renderedTodoApp.find('li.todo-item').length, 'to equal', 2);
     });
 
     it('removes only completed items when Clear Completed is clicked', function() {
@@ -352,20 +356,4 @@ describe('TodoMVC App', function() {
       );
     });
   });
-
-  describe('when an active filter has been applied', function() {
-    beforeEach(function() {
-      model = new TodoModel();
-      // TODO - select the active filter
-    });
-
-    xit('remembers filter setting when an item is added to an empty list', function() {
-      // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
-
-      // when
-      // then
-    });
-  });
-
 });
