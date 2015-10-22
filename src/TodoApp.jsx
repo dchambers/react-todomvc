@@ -29,37 +29,37 @@ var TodoApp = React.createClass({
 		this.props.model.subscribe(this.forceUpdate.bind(this));
 	},
 
-	addTodo: function (todo) {
+	handleTodoAdded: function (todo) {
 		this.props.model.addTodo(todo);
 	},
 
-	toggleAll: function (event) {
+	handleToggleAll: function (event) {
 		var checked = event.target.checked;
 		this.props.model.toggleAll(checked);
 	},
 
-	toggle: function (todoToToggle) {
+	handleToggle: function (todoToToggle) {
 		this.props.model.toggle(todoToToggle);
 	},
 
-	destroy: function (todo) {
+	handleDestroy: function (todo) {
 		this.props.model.destroy(todo);
 	},
 
-	edit: function (todo) {
+	handleEdit: function (todo) {
 		this.setState({editing: todo.id});
 	},
 
-	save: function (todoToSave, text) {
+	handleSave: function (todoToSave, text) {
 		this.props.model.save(todoToSave, text);
 		this.setState({editing: null});
 	},
 
-	cancel: function () {
+	handleCancel: function () {
 		this.setState({editing: null});
 	},
 
-	clearCompleted: function () {
+	handleClearCompleted: function () {
 		this.props.model.clearCompleted();
 	},
 
@@ -84,27 +84,27 @@ var TodoApp = React.createClass({
 					key={todo.id}
 					title={todo.title}
 					completed={todo.completed}
-					onToggle={this.toggle.bind(this, todo)}
-					onDestroy={this.destroy.bind(this, todo)}
-					onEdit={this.edit.bind(this, todo)}
 					editing={this.state.editing === todo.id}
-					onSave={this.save.bind(this, todo)}
-					onCancel={this.cancel}
+					onToggle={this.handleToggle.bind(this, todo)}
+					onDestroy={this.handleDestroy.bind(this, todo)}
+					onEdit={this.handleEdit.bind(this, todo)}
+					onSave={this.handleSave.bind(this, todo)}
+					onCancel={this.handleCancel}
 				/>
 			);
 		}, this);
 
 		return (
 			<Container componentName="TodoApp">
-				<TodoHeader onTodoAdded={this.addTodo}/>
+				<TodoHeader onTodoAdded={this.handleTodoAdded}/>
 				{todos.length ? (
-					<TodoItems activeTodoCount={model.activeTodoCount()} onToggleAll={this.toggleAll}>
+					<TodoItems activeTodoCount={model.activeTodoCount()} onToggleAll={this.handleToggleAll}>
 						{todoItems}
 					</TodoItems>
 				) : null}
 				{model.activeTodoCount() || model.completedCount() ? (
 					<TodoFooter count={model.activeTodoCount()} completedCount={model.completedCount()}
-						nowShowing={this.state.nowShowing} onClearCompleted={this.clearCompleted}
+						nowShowing={this.state.nowShowing} onClearCompleted={this.handleClearCompleted}
 					/>
 				) : null}
 			</Container>

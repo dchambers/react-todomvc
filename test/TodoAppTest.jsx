@@ -35,18 +35,18 @@ describe('TodoMVC App', function() {
 
   describe('UI bindings', function() {
     beforeEach(function() {
-      this.addTodo = TodoApp.prototype.__reactAutoBindMap.addTodo;
+      this.handleTodoAdded = TodoApp.prototype.__reactAutoBindMap.handleTodoAdded;
     });
 
     afterEach(function() {
-      TodoApp.prototype.__reactAutoBindMap.addTodo = this.addTodo;
+      TodoApp.prototype.__reactAutoBindMap.handleTodoAdded = this.handleTodoAdded;
     });
 
     it('allows the user to add items', function() {
       // given
       var model = new TodoModel();
       var todoApp = $(<TodoApp model={model} router={router}/>);
-      var addTodo = sinon.stub(TodoApp.prototype.__reactAutoBindMap, 'addTodo');
+      var handleTodoAdded = sinon.stub(TodoApp.prototype.__reactAutoBindMap, 'handleTodoAdded');
 
       // when
       var inputBox = todoApp.render().find('input.new-todo');
@@ -54,7 +54,7 @@ describe('TodoMVC App', function() {
       inputBox.trigger('keyDown', {key: 'Enter', keyCode: 13, which: 13});
 
       // then
-      sinon.assert.calledWith(addTodo, 'Stuff');
+      sinon.assert.calledWith(handleTodoAdded, 'Stuff');
     });
   });
 
