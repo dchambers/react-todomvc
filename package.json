@@ -55,7 +55,7 @@
     "mocha": "^2.3.3",
     "node-inspector": "^0.12.3",
     "react-addons-test-utils": "^0.14.0",
-    "teaspoon": "^5.0.0",
+    "teaspoon": "BladeRunnerJS/teaspoon#state-synchronization-fix-plus-npm-fixes",
     "unexpected": "^10.0.1",
     "unexpected-react-shallow": "^0.7.0",
     "watch-run": "^1.2.2"
