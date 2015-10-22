@@ -70,7 +70,7 @@ var TodoItem = React.createClass({
 
 	render: function () {
 		return (
-			<li className={classNames({
+			<li className={classNames('todo-item', {
 				completed: this.props.completed,
 				editing: this.props.editing
 			})}>

@@ -8,12 +8,6 @@ var model = new TodoModel('react-todos');
 var director = require('director');
 var router = new director.Router();
 
-function render() {
-	ReactDOM.render(
-		<TodoApp model={model} router={router}/>,
-		document.getElementsByClassName('todoapp')[0]
-	);
-}
-
-model.subscribe(render);
-render();
+ReactDOM.render(
+	<TodoApp model={model} router={router}/>, document.getElementsByClassName('todoapp')[0]
+);

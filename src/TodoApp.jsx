@@ -26,6 +26,7 @@ var TodoApp = React.createClass({
 			'/completed': setState.bind(this, {nowShowing: COMPLETED_TODOS})
 		});
 		this.props.router.init('/');
+		this.props.model.subscribe(this.forceUpdate.bind(this));
 	},
 
 	addTodo: function (todo) {
