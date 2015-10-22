@@ -4,6 +4,7 @@ var $ = require('teaspoon');
 var unexpected = require('unexpected');
 var unexpectedReactShallow = require('unexpected-react-shallow');
 var expect = unexpected.clone().installPlugin(unexpectedReactShallow);
+var sinon = require('sinon');
 
 var React = require('react');
 var director = require('director');
@@ -32,6 +33,31 @@ describe('TodoMVC App', function() {
     localStorage.clear();
   });
 
+  describe('UI bindings', function() {
+    beforeEach(function() {
+      this.addTodo = TodoApp.prototype.__reactAutoBindMap.addTodo;
+    });
+
+    afterEach(function() {
+      TodoApp.prototype.__reactAutoBindMap.addTodo = this.addTodo;
+    });
+
+    it('allows the user to add items', function() {
+      // given
+      var model = new TodoModel();
+      var todoApp = $(<TodoApp model={model} router={router}/>);
+      var addTodo = sinon.stub(TodoApp.prototype.__reactAutoBindMap, 'addTodo');
+
+      // when
+      var inputBox = todoApp.render().find('input.new-todo');
+      inputBox.dom().value = 'Stuff';
+      inputBox.trigger('keyDown', {key: 'Enter', keyCode: 13, which: 13});
+
+      // then
+      sinon.assert.calledWith(addTodo, 'Stuff');
+    });
+  });
+
   describe('when the Todo list start off empty', function() {
     beforeEach(function() {
       model = new TodoModel();
@@ -54,9 +80,7 @@ describe('TodoMVC App', function() {
       var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      var inputBox = todoApp.render().find('input.new-todo');
-      inputBox.dom().value = 'Stuff';
-      inputBox.trigger('keyDown', {key: 'Enter', keyCode: 13, which: 13});
+      todoApp.shallowRender().find('TodoHeader')[0].props.onTodoAdded('Stuff');
 
       // then
       expect(todoApp.shallowRender()[0], 'to have rendered with all children',
