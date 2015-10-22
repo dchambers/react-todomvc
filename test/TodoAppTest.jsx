@@ -46,6 +46,7 @@ describe('TodoMVC App', function() {
       this.handleTodoAdded = TodoApp.prototype.__reactAutoBindMap.handleTodoAdded;
       this.handleToggle = TodoApp.prototype.__reactAutoBindMap.handleToggle;
       this.handleToggleAll = TodoApp.prototype.__reactAutoBindMap.handleToggleAll;
+      this.handleClearCompleted = TodoApp.prototype.__reactAutoBindMap.handleClearCompleted;
       this.handleDestroy = TodoApp.prototype.__reactAutoBindMap.handleDestroy;
     });
 
@@ -53,6 +54,7 @@ describe('TodoMVC App', function() {
       TodoApp.prototype.__reactAutoBindMap.handleTodoAdded = this.handleTodoAdded;
       TodoApp.prototype.__reactAutoBindMap.handleToggle = this.handleToggle;
       TodoApp.prototype.__reactAutoBindMap.handleToggleAll = this.handleToggleAll;
+      TodoApp.prototype.__reactAutoBindMap.handleClearCompleted = this.handleClearCompleted;
       TodoApp.prototype.__reactAutoBindMap.handleDestroy = this.handleDestroy;
     });
 
