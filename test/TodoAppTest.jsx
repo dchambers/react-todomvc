@@ -100,7 +100,19 @@ describe('TodoMVC App', function() {
       todoItems.render().find('.toggle-all').trigger('change', {'target': {'checked': true}});
 
       // then
-      sinon.assert.calledOnce(handleToggleAll);
+      sinon.assert.calledWith(handleToggleAll, true);
+    });
+
+    it('allows the user to unmark all items as completed', function() {
+      // given
+      var handleToggleAll = sinon.spy();
+      var todoItems = $(<TodoItems onToggleAll={handleToggleAll}/>);
+
+      // when
+      todoItems.render().find('.toggle-all').trigger('change', {'target': {'checked': false}});
+
+      // then
+      sinon.assert.calledWith(handleToggleAll, false);
     });
 
     it('allows the user to clear completed items', function() {
@@ -267,7 +279,7 @@ describe('TodoMVC App', function() {
       var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll({'target': {'checked': true}});
+      todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll(true);
 
       // then
       expect(todoApp.shallowRender()[0], 'to contain',
@@ -284,8 +296,8 @@ describe('TodoMVC App', function() {
     var todoApp = $(<TodoApp model={model} router={router}/>);
 
     // when
-    todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll({'target': {'checked': true}});
-    todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll({'target': {'checked': false}});
+    todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll(true);
+    todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll(false);
 
     // then
     expect(todoApp.shallowRender()[0], 'to contain',
