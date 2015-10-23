@@ -36,8 +36,7 @@ var TodoApp = React.createClass({
 		this.props.model.addTodo(todo);
 	},
 
-	handleToggleAll: function (event) {
-		var checked = event.target.checked;
+	handleToggleAll: function (checked) {
 		this.props.model.toggleAll(checked);
 	},
 
