@@ -1,79 +1,81 @@
-'use strict';
+import React from 'react';
+import Component from 'react-es6-component';
 
-var ALL_TODOS = 'all';
-var ACTIVE_TODOS = 'active';
-var COMPLETED_TODOS = 'completed';
-var React = require('react');
-var Container = require('./Container.jsx');
-var TodoHeader = require('./TodoHeader.jsx');
-var TodoFooter = require('./TodoFooter.jsx');
-var TodoItems = require('./TodoItems.jsx');
-var TodoItem = require('./TodoItem.jsx');
+import Container from './Container.jsx';
+import TodoHeader from './TodoHeader.jsx';
+import TodoFooter from './TodoFooter.jsx';
+import TodoItems from './TodoItems.jsx';
+import TodoItem from './TodoItem.jsx';
 
-var TodoApp = React.createClass({
-	getInitialState: function () {
-		return {
+const ALL_TODOS = 'all';
+const ACTIVE_TODOS = 'active';
+const COMPLETED_TODOS = 'completed';
+
+export default class extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
 			nowShowing: ALL_TODOS,
 			editing: null
 		};
-	},
+	}
 
-	componentWillMount: function () {
-		var setState = this.setState;
+	componentWillMount() {
+		let setState = this.setState;
 		this.props.router.mount({
 			'/': setState.bind(this, {nowShowing: ALL_TODOS}),
 			'/active': setState.bind(this, {nowShowing: ACTIVE_TODOS}),
 			'/completed': setState.bind(this, {nowShowing: COMPLETED_TODOS})
 		});
 		this.props.model.subscribe(this.forceUpdate.bind(this));
-	},
+	}
 
-	componentDidMount: function () {
+	componentDidMount() {
 		this.props.router.init('/');
-	},
+	}
 
-	handleTodoAdded: function (todo) {
+	handleTodoAdded(todo) {
 		this.props.model.addTodo(todo);
-	},
+	}
 
-	handleToggleAll: function (checked) {
+	handleToggleAll(checked) {
 		this.props.model.toggleAll(checked);
-	},
+	}
 
-	handleToggle: function (todoIndex) {
-		var todo = this.props.model.todos[todoIndex];
+	handleToggle(todoIndex) {
+		let todo = this.props.model.todos[todoIndex];
 		this.props.model.toggle(todo);
-	},
+	}
 
-	handleDestroy: function (todoIndex) {
-		var todo = this.props.model.todos[todoIndex];
+	handleDestroy(todoIndex) {
+		let todo = this.props.model.todos[todoIndex];
 		this.props.model.destroy(todo);
-	},
+	}
 
-	handleEdit: function (todoIndex) {
-		var todo = this.props.model.todos[todoIndex];
+	handleEdit(todoIndex) {
+		let todo = this.props.model.todos[todoIndex];
 		this.setState({editing: todo.id});
-	},
+	}
 
-	handleSave: function (todoIndex, text) {
-		var todo = this.props.model.todos[todoIndex];
+	handleSave(todoIndex, text) {
+		let todo = this.props.model.todos[todoIndex];
 		this.props.model.save(todo, text);
 		this.setState({editing: null});
-	},
+	}
 
-	handleCancel: function () {
+	handleCancel() {
 		this.setState({editing: null});
-	},
+	}
 
-	handleClearCompleted: function () {
+	handleClearCompleted() {
 		this.props.model.clearCompleted();
-	},
+	}
 
-	render: function () {
-		var model = this.props.model;
-		var todos = model.todos;
+	render() {
+		let model = this.props.model;
+		let todos = model.todos;
 
-		var shownTodos = todos.filter(function (todo) {
+		let shownTodos = todos.filter(function (todo) {
 			switch (this.state.nowShowing) {
 			case ACTIVE_TODOS:
 				return !todo.completed;
@@ -84,8 +86,8 @@ var TodoApp = React.createClass({
 			}
 		}, this);
 
-		var index = 0;
-		var todoItems = shownTodos.map(function (todo) {
+		let index = 0;
+		let todoItems = shownTodos.map(function (todo) {
 			return (
 				<TodoItem
 					index={index++}
@@ -118,6 +120,4 @@ var TodoApp = React.createClass({
 			</Container>
 		);
 	}
-});
-
-module.exports = TodoApp;
+};

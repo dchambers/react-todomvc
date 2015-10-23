@@ -1,26 +1,32 @@
 'use strict';
 
-var ENTER_KEY = 13;
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import Component from 'react-es6-component';
+import ReactDOM from 'react-dom';
 
-var TodoHeader = React.createClass({
-	handleKeyDown: function (event) {
+const ENTER_KEY = 13;
+
+export default class TodoHeader extends Component {
+	constructor(props) {
+		super(props);
+	}
+
+	handleKeyDown(event) {
 		if (event.keyCode !== ENTER_KEY) {
 			return;
 		}
 
 		event.preventDefault();
 
-		var val = ReactDOM.findDOMNode(this.refs.newField).value.trim();
+		let val = ReactDOM.findDOMNode(this.refs.newField).value.trim();
 
 		if (val) {
 			this.props.onTodoAdded(val);
 			ReactDOM.findDOMNode(this.refs.newField).value = '';
 		}
-	},
+	}
 
-	render: function () {
+	render() {
 		return (
       <header className="header">
         <h1>todos</h1>
@@ -34,6 +40,4 @@ var TodoHeader = React.createClass({
       </header>
 		);
 	}
-});
-
-module.exports = TodoHeader;
+};
