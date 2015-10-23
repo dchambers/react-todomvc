@@ -221,7 +221,7 @@ describe('TodoMVC App', function() {
       var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.shallowRender().find('TodoItem')[0].props.onToggle(todoItem);
+      todoApp.shallowRender().find('TodoItem')[0].props.onToggle(0);
 
       // then
       expect(todoApp.shallowRender()[0], 'to contain',
@@ -234,7 +234,7 @@ describe('TodoMVC App', function() {
       var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.shallowRender().find('TodoItem')[0].props.onDestroy(todoItem);
+      todoApp.shallowRender().find('TodoItem')[0].props.onDestroy(0);
 
       // then
       expect(todoApp.shallowRender()[0], 'to have rendered with all children',
