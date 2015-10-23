@@ -278,7 +278,6 @@ describe('TodoMVC App', function() {
         </TodoItems>
       );
     });
-  });
 
   it('marks and then unmarks all items when the toggle-all arrow is clicked twice', function() {
     // given
@@ -295,7 +294,8 @@ describe('TodoMVC App', function() {
         <TodoItem title="Item #2" completed={false}/>
         <TodoItem title="Item #3" completed={false}/>
       </TodoItems>
-    );
+      );
+    });
   });
 
   describe('when the Todo list contains a mixture of completed and active items', function() {
