@@ -41,20 +41,24 @@ var TodoApp = React.createClass({
 		this.props.model.toggleAll(checked);
 	},
 
-	handleToggle: function (todoToToggle) {
-		this.props.model.toggle(todoToToggle);
+	handleToggle: function (todoIndex) {
+		var todo = this.props.model.todos[todoIndex];
+		this.props.model.toggle(todo);
 	},
 
-	handleDestroy: function (todo) {
+	handleDestroy: function (todoIndex) {
+		var todo = this.props.model.todos[todoIndex];
 		this.props.model.destroy(todo);
 	},
 
-	handleEdit: function (todo) {
+	handleEdit: function (todoIndex) {
+		var todo = this.props.model.todos[todoIndex];
 		this.setState({editing: todo.id});
 	},
 
-	handleSave: function (todoToSave, text) {
-		this.props.model.save(todoToSave, text);
+	handleSave: function (todoIndex, text) {
+		var todo = this.props.model.todos[todoIndex];
+		this.props.model.save(todo, text);
 		this.setState({editing: null});
 	},
 
@@ -81,17 +85,19 @@ var TodoApp = React.createClass({
 			}
 		}, this);
 
+		var index = 0;
 		var todoItems = shownTodos.map(function (todo) {
 			return (
 				<TodoItem
+					index={index++}
 					key={todo.id}
 					title={todo.title}
 					completed={todo.completed}
 					editing={this.state.editing === todo.id}
-					onToggle={this.handleToggle.bind(this, todo)}
-					onDestroy={this.handleDestroy.bind(this, todo)}
-					onEdit={this.handleEdit.bind(this, todo)}
-					onSave={this.handleSave.bind(this, todo)}
+					onToggle={this.handleToggle}
+					onDestroy={this.handleDestroy}
+					onEdit={this.handleEdit}
+					onSave={this.handleSave}
 					onCancel={this.handleCancel}
 				/>
 			);

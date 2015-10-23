@@ -34,37 +34,18 @@ describe('TodoMVC App', function() {
   });
 
   describe('UI bindings', function() {
-    var todoItem;
-
     beforeEach(function() {
       model = new TodoModel();
       model.addTodo('Item #1');
-      todoItem = model.todos[0];
-    });
-
-    beforeEach(function() {
-      this.handleTodoAdded = TodoApp.prototype.__reactAutoBindMap.handleTodoAdded;
-      this.handleToggle = TodoApp.prototype.__reactAutoBindMap.handleToggle;
-      this.handleToggleAll = TodoApp.prototype.__reactAutoBindMap.handleToggleAll;
-      this.handleClearCompleted = TodoApp.prototype.__reactAutoBindMap.handleClearCompleted;
-      this.handleDestroy = TodoApp.prototype.__reactAutoBindMap.handleDestroy;
-    });
-
-    afterEach(function() {
-      TodoApp.prototype.__reactAutoBindMap.handleTodoAdded = this.handleTodoAdded;
-      TodoApp.prototype.__reactAutoBindMap.handleToggle = this.handleToggle;
-      TodoApp.prototype.__reactAutoBindMap.handleToggleAll = this.handleToggleAll;
-      TodoApp.prototype.__reactAutoBindMap.handleClearCompleted = this.handleClearCompleted;
-      TodoApp.prototype.__reactAutoBindMap.handleDestroy = this.handleDestroy;
     });
 
     it('allows the user to add items', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
-      var handleTodoAdded = sinon.stub(TodoApp.prototype.__reactAutoBindMap, 'handleTodoAdded');
+      var handleTodoAdded = sinon.spy();
+      var todoHeader = $(<TodoHeader onTodoAdded={handleTodoAdded}/>);
 
       // when
-      var inputBox = todoApp.render().find('input.new-todo');
+      var inputBox = todoHeader.render().find('input.new-todo');
       inputBox.dom().value = 'Item #1';
       inputBox.trigger('keyDown', {key: 'Enter', keyCode: 13, which: 13});
 
@@ -74,11 +55,11 @@ describe('TodoMVC App', function() {
 
     it('does not allow the user to add emtpy items', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
-      var handleTodoAdded = sinon.stub(TodoApp.prototype.__reactAutoBindMap, 'handleTodoAdded');
+      var handleTodoAdded = sinon.spy();
+      var todoHeader = $(<TodoHeader onTodoAdded={handleTodoAdded}/>);
 
       // when
-      var inputBox = todoApp.render().find('input.new-todo');
+      var inputBox = todoHeader.render().find('input.new-todo');
       inputBox.dom().value = '';
       inputBox.trigger('keyDown', {key: 'Enter', keyCode: 13, which: 13});
 
@@ -88,35 +69,35 @@ describe('TodoMVC App', function() {
 
     it('allows the user to check active items', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
-      var handleToggle = sinon.stub(TodoApp.prototype.__reactAutoBindMap, 'handleToggle');
+      var handleToggle = sinon.spy();
+      var todoItem = $(<TodoItem index={2} onToggle={handleToggle}/>);
 
       // when
-      todoApp.render().find('.todo-list .toggle').trigger('change', {'target': {'checked': true}});
+      todoItem.render().find('.toggle').trigger('change', {'target': {'checked': true}});
 
       // then
-      sinon.assert.calledWith(handleToggle, todoItem);
+      sinon.assert.calledWith(handleToggle, 2);
     });
 
     it('allows the user to destroy items', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
-      var handleDestroy = sinon.stub(TodoApp.prototype.__reactAutoBindMap, 'handleDestroy');
+      var handleDestroy = sinon.spy();
+      var todoItem = $(<TodoItem index={3} onDestroy={handleDestroy}/>);
 
       // when
-      todoApp.render().find('.destroy').trigger('click');
+      todoItem.render().find('.destroy').trigger('click');
 
       // then
-      sinon.assert.calledWith(handleDestroy, todoItem);
+      sinon.assert.calledWith(handleDestroy, 3);
     });
 
     it('allows the user to mark all items as completed', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
-      var handleToggleAll = sinon.stub(TodoApp.prototype.__reactAutoBindMap, 'handleToggleAll');
+      var handleToggleAll = sinon.spy();
+      var todoItems = $(<TodoItems onToggleAll={handleToggleAll}/>);
 
       // when
-      todoApp.render().find('.toggle-all').trigger('change', {'target': {'checked': true}});
+      todoItems.render().find('.toggle-all').trigger('change', {'target': {'checked': true}});
 
       // then
       sinon.assert.calledOnce(handleToggleAll);
@@ -124,12 +105,13 @@ describe('TodoMVC App', function() {
 
     it('allows the user to clear completed items', function() {
       // given
-      todoItem.completed = true;
-      var todoApp = $(<TodoApp model={model} router={router}/>);
-      var handleClearCompleted = sinon.stub(TodoApp.prototype.__reactAutoBindMap, 'handleClearCompleted');
+      var handleClearCompleted = sinon.spy();
+      var todoFooter = $(
+        <TodoFooter count={1} completedCount={1} onClearCompleted={handleClearCompleted}/>
+      );
 
       // when
-      todoApp.render().find('button.clear-completed').trigger('click');
+      todoFooter.render().find('button.clear-completed').trigger('click');
 
       // then
       sinon.assert.calledOnce(handleClearCompleted);
@@ -198,12 +180,9 @@ describe('TodoMVC App', function() {
   })
 
   describe('when the Todo list starts off with a single active item', function() {
-    var todoItem;
-
     beforeEach(function() {
       model = new TodoModel();
       model.addTodo('Item #1');
-      todoItem = model.todos[0];
     });
 
     it('starts off with a completed count of zero', function() {
@@ -221,7 +200,7 @@ describe('TodoMVC App', function() {
       var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.shallowRender().find('TodoItem')[0].props.onToggle(todoItem);
+      todoApp.shallowRender().find('TodoItem')[0].props.onToggle(0);
 
       // then
       expect(todoApp.shallowRender()[0], 'to contain',
@@ -234,7 +213,7 @@ describe('TodoMVC App', function() {
       var todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.shallowRender().find('TodoItem')[0].props.onDestroy(todoItem);
+      todoApp.shallowRender().find('TodoItem')[0].props.onDestroy(0);
 
       // then
       expect(todoApp.shallowRender()[0], 'to have rendered with all children',

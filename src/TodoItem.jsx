@@ -9,15 +9,15 @@ var TodoItem = React.createClass({
 	handleSubmit: function (event) {
 		var val = this.state.editText.trim();
 		if (val) {
-			this.props.onSave(val);
+			this.props.onSave(this.props.index, val);
 			this.setState({editText: val});
 		} else {
-			this.props.onDestroy();
+			this.props.onDestroy(this.props.index);
 		}
 	},
 
 	handleEdit: function () {
-		this.props.onEdit();
+		this.props.onEdit(this.props.index);
 		this.setState({editText: this.props.title});
 	},
 
@@ -32,6 +32,14 @@ var TodoItem = React.createClass({
 
 	handleChange: function (event) {
 		this.setState({editText: event.target.value});
+	},
+
+	handleToggle: function () {
+		this.props.onToggle(this.props.index);
+	},
+
+	handleDestroy: function () {
+		this.props.onDestroy(this.props.index);
 	},
 
 	getInitialState: function () {
@@ -79,12 +87,12 @@ var TodoItem = React.createClass({
 						className="toggle"
 						type="checkbox"
 						checked={this.props.completed}
-						onChange={this.props.onToggle}
+						onChange={this.handleToggle}
 					/>
 					<label onDoubleClick={this.handleEdit}>
 						{this.props.title}
 					</label>
-					<button className="destroy" onClick={this.props.onDestroy} />
+					<button className="destroy" onClick={this.handleDestroy} />
 				</div>
 				<input
 					ref="editField"
