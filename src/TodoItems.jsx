@@ -1,13 +1,12 @@
-'use strict';
+import React from 'react';
+import Component from 'react-es6-component';
 
-var React = require('react');
-
-var TodoItems = React.createClass({
-	handleToggleAll: function(event) {
+export default class TodoItems extends Component {
+	handleToggleAll(event) {
 		this.props.onToggleAll(event.target.checked);
-	},
+	}
 
-	render: function () {
+	render() {
 		return (
       <section className="main">
         <input
@@ -22,6 +21,4 @@ var TodoItems = React.createClass({
       </section>
 		);
 	}
-});
-
-module.exports = TodoItems;
+};

@@ -1,10 +1,10 @@
 'use strict';
 
-var Utils = {
-	uuid: function () {
+class Utils {
+	uuid() {
 		/*jshint bitwise:false */
-		var i, random;
-		var uuid = '';
+		let i, random;
+		let uuid = '';
 
 		for (i = 0; i < 32; i++) {
 			random = Math.random() * 16 | 0;
@@ -16,26 +16,26 @@ var Utils = {
 		}
 
 		return uuid;
-	},
+	}
 
-	pluralize: function (count, word) {
+	pluralize(count, word) {
 		return count === 1 ? word : word + 's';
-	},
+	}
 
-	store: function (namespace, data) {
+	store(namespace, data) {
 		if (data) {
 			return localStorage.setItem(namespace, JSON.stringify(data));
 		}
 
-		var store = localStorage.getItem(namespace);
+		let store = localStorage.getItem(namespace);
 		return (store && JSON.parse(store)) || [];
-	},
+	}
 
-	extend: function () {
-		var newObj = {};
-		for (var i = 0; i < arguments.length; i++) {
-			var obj = arguments[i];
-			for (var key in obj) {
+	extend() {
+		let newObj = {};
+		for (let i = 0; i < arguments.length; i++) {
+			let obj = arguments[i];
+			for (let key in obj) {
 				if (obj.hasOwnProperty(key)) {
 					newObj[key] = obj[key];
 				}
@@ -43,6 +43,6 @@ var Utils = {
 		}
 		return newObj;
 	}
-};
+}
 
-module.exports = Utils;
+export default new Utils();

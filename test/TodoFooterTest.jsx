@@ -1,17 +1,17 @@
-var $ = require('teaspoon');
-var unexpected = require('unexpected');
-var unexpectedReactShallow = require('unexpected-react-shallow');
-var expect = unexpected.clone().installPlugin(unexpectedReactShallow);
+import $ from 'teaspoon';
+import unexpected from 'unexpected';
+import unexpectedReactShallow from 'unexpected-react-shallow';
+const expect = unexpected.clone().installPlugin(unexpectedReactShallow);
 
-var React = require('react');
+import React from 'react';
 
-var TodoFooter = require('../src/TodoFooter.jsx');
+import TodoFooter from '../src/TodoFooter.jsx';
 
 describe('Todo Footer', function() {
 	// TODO: enable this test once <https://github.com/bruderstein/unexpected-react-shallow/issues/10> is resolved
 	xit('does not display the clear all completed items button if there are no completed items', function() {
 		// given
-		var todoFooter = $(<TodoFooter count={1} completedCount={0} nowShowing="all"/>);
+		let todoFooter = $(<TodoFooter count={1} completedCount={0} nowShowing="all"/>);
 
 		// then
 		expect(todoFooter.shallowRender()[0], 'not to contain',
@@ -21,7 +21,7 @@ describe('Todo Footer', function() {
 
 	it('displays the clear all completed items button if there are completed items', function() {
 		// given
-		var todoFooter = $(<TodoFooter count={1} completedCount={1} nowShowing="all"/>);
+		let todoFooter = $(<TodoFooter count={1} completedCount={1} nowShowing="all"/>);
 
 		// then
 		expect(todoFooter.shallowRender()[0], 'to contain',

@@ -1,12 +1,13 @@
 {
 	"env": {
-		"node": true,
+		"es6": true,
 	},
 	"rules": {
 		"quotes": [2, "single"],
 		"no-underscore-dangle": 0
 	},
 	"ecmaFeatures": {
+		"modules": true,
 		"jsx": true
 	}
 }

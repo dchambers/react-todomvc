@@ -1,20 +1,19 @@
-'use strict';
+import $ from 'teaspoon';
+import unexpected from 'unexpected';
+import unexpectedReactShallow from 'unexpected-react-shallow';
+const expect = unexpected.clone().installPlugin(unexpectedReactShallow);
+import sinon from 'sinon';
 
-var $ = require('teaspoon');
-var unexpected = require('unexpected');
-var unexpectedReactShallow = require('unexpected-react-shallow');
-var expect = unexpected.clone().installPlugin(unexpectedReactShallow);
-var sinon = require('sinon');
+import React from 'react';
+import director from 'director';
 
-var React = require('react');
-var director = require('director');
-var TodoApp = require('../src/TodoApp.jsx');
-var Container = require('../src/Container.jsx');
-var TodoHeader = require('../src/TodoHeader.jsx');
-var TodoItems = require('../src/TodoItems.jsx');
-var TodoItem = require('../src/TodoItem.jsx');
-var TodoFooter = require('../src/TodoFooter.jsx');
-var TodoModel = require('../src/TodoModel.js');
+import TodoApp from '../src/TodoApp.jsx';
+import Container from '../src/Container.jsx';
+import TodoHeader from '../src/TodoHeader.jsx';
+import TodoItems from '../src/TodoItems.jsx';
+import TodoItem from '../src/TodoItem.jsx';
+import TodoFooter from '../src/TodoFooter.jsx';
+import TodoModel from '../src/TodoModel.js';
 
 function extractRoute(linkElem) {
   return linkElem.href.replace(/.*#/, '');
@@ -26,7 +25,7 @@ if(!director.Router.prototype.init) {
 }
 
 describe('TodoMVC App', function() {
-  var model, router;
+  let model, router;
 
   beforeEach(function() {
     router = new director.Router();
@@ -41,11 +40,11 @@ describe('TodoMVC App', function() {
 
     it('allows the user to add items', function() {
       // given
-      var handleTodoAdded = sinon.spy();
-      var todoHeader = $(<TodoHeader onTodoAdded={handleTodoAdded}/>);
+      let handleTodoAdded = sinon.spy();
+      let todoHeader = $(<TodoHeader onTodoAdded={handleTodoAdded}/>);
 
       // when
-      var inputBox = todoHeader.render().find('input.new-todo');
+      let inputBox = todoHeader.render().find('input.new-todo');
       inputBox.dom().value = 'Item #1';
       inputBox.trigger('keyDown', {key: 'Enter', keyCode: 13, which: 13});
 
@@ -55,11 +54,11 @@ describe('TodoMVC App', function() {
 
     it('does not allow the user to add emtpy items', function() {
       // given
-      var handleTodoAdded = sinon.spy();
-      var todoHeader = $(<TodoHeader onTodoAdded={handleTodoAdded}/>);
+      let handleTodoAdded = sinon.spy();
+      let todoHeader = $(<TodoHeader onTodoAdded={handleTodoAdded}/>);
 
       // when
-      var inputBox = todoHeader.render().find('input.new-todo');
+      let inputBox = todoHeader.render().find('input.new-todo');
       inputBox.dom().value = '';
       inputBox.trigger('keyDown', {key: 'Enter', keyCode: 13, which: 13});
 
@@ -69,8 +68,8 @@ describe('TodoMVC App', function() {
 
     it('allows the user to check active items', function() {
       // given
-      var handleToggle = sinon.spy();
-      var todoItem = $(<TodoItem index={2} onToggle={handleToggle}/>);
+      let handleToggle = sinon.spy();
+      let todoItem = $(<TodoItem index={2} onToggle={handleToggle}/>);
 
       // when
       todoItem.render().find('.toggle').trigger('change', {'target': {'checked': true}});
@@ -81,8 +80,8 @@ describe('TodoMVC App', function() {
 
     it('allows the user to destroy items', function() {
       // given
-      var handleDestroy = sinon.spy();
-      var todoItem = $(<TodoItem index={3} onDestroy={handleDestroy}/>);
+      let handleDestroy = sinon.spy();
+      let todoItem = $(<TodoItem index={3} onDestroy={handleDestroy}/>);
 
       // when
       todoItem.render().find('.destroy').trigger('click');
@@ -93,8 +92,8 @@ describe('TodoMVC App', function() {
 
     it('allows the user to mark all items as completed', function() {
       // given
-      var handleToggleAll = sinon.spy();
-      var todoItems = $(<TodoItems onToggleAll={handleToggleAll}/>);
+      let handleToggleAll = sinon.spy();
+      let todoItems = $(<TodoItems onToggleAll={handleToggleAll}/>);
 
       // when
       todoItems.render().find('.toggle-all').trigger('change', {'target': {'checked': true}});
@@ -105,8 +104,8 @@ describe('TodoMVC App', function() {
 
     it('allows the user to unmark all items as completed', function() {
       // given
-      var handleToggleAll = sinon.spy();
-      var todoItems = $(<TodoItems onToggleAll={handleToggleAll}/>);
+      let handleToggleAll = sinon.spy();
+      let todoItems = $(<TodoItems onToggleAll={handleToggleAll}/>);
 
       // when
       todoItems.render().find('.toggle-all').trigger('change', {'target': {'checked': false}});
@@ -117,8 +116,8 @@ describe('TodoMVC App', function() {
 
     it('allows the user to clear completed items', function() {
       // given
-      var handleClearCompleted = sinon.spy();
-      var todoFooter = $(
+      let handleClearCompleted = sinon.spy();
+      let todoFooter = $(
         <TodoFooter count={1} completedCount={1} onClearCompleted={handleClearCompleted}/>
       );
 
@@ -131,7 +130,7 @@ describe('TodoMVC App', function() {
 
     it('allows the user to view all items', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // then
       expect(extractRoute(todoApp.render().find('a.all').dom()), 'to equal', '/');
@@ -139,7 +138,7 @@ describe('TodoMVC App', function() {
 
     it('allows the user to view active items', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // then
       expect(extractRoute(todoApp.render().find('a.active').dom()), 'to equal', '/active');
@@ -147,7 +146,7 @@ describe('TodoMVC App', function() {
 
     it('allows the user to view completed items', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // then
       expect(extractRoute(todoApp.render().find('a.completed').dom()), 'to equal', '/completed');
@@ -161,7 +160,7 @@ describe('TodoMVC App', function() {
 
     it('only renders a header when there are no items in the list', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // then
       expect(todoApp.shallowRender()[0], 'to have rendered with all children',
@@ -173,7 +172,7 @@ describe('TodoMVC App', function() {
 
     it('allows an item to be added to the list', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       todoApp.shallowRender().find('TodoHeader')[0].props.onTodoAdded('Item #1');
@@ -199,7 +198,7 @@ describe('TodoMVC App', function() {
 
     it('starts off with a completed count of zero', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // then
       expect(todoApp.shallowRender()[0], 'to contain',
@@ -209,7 +208,7 @@ describe('TodoMVC App', function() {
 
     it('updates the summary information when an items checkbox is ticked', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       todoApp.shallowRender().find('TodoItem')[0].props.onToggle(0);
@@ -222,7 +221,7 @@ describe('TodoMVC App', function() {
 
     it('removes the items list and footer when the last item is removed', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       todoApp.shallowRender().find('TodoItem')[0].props.onDestroy(0);
@@ -237,7 +236,7 @@ describe('TodoMVC App', function() {
 
     it('updates the footer information when the completed filter is clicked', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       todoApp.shallowRender();
@@ -251,7 +250,7 @@ describe('TodoMVC App', function() {
 
     it('adds new items to the bottom of the list', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       todoApp.shallowRender().find('TodoHeader')[0].props.onTodoAdded('Item #2');
@@ -276,7 +275,7 @@ describe('TodoMVC App', function() {
 
     it('marks all items as done when the toggle-all arrow is clicked', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll(true);
@@ -293,7 +292,7 @@ describe('TodoMVC App', function() {
 
   it('marks and then unmarks all items when the toggle-all arrow is clicked twice', function() {
     // given
-    var todoApp = $(<TodoApp model={model} router={router}/>);
+    let todoApp = $(<TodoApp model={model} router={router}/>);
 
     // when
     todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll(true);
@@ -321,7 +320,7 @@ describe('TodoMVC App', function() {
 
     it('shows all items by default', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // then
       expect(todoApp.shallowRender()[0], 'to contain with all children',
@@ -335,7 +334,7 @@ describe('TodoMVC App', function() {
 
     it('does not show active items when the completed view is used', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       todoApp.shallowRender();
@@ -351,7 +350,7 @@ describe('TodoMVC App', function() {
 
     it('does not show completed items when the active view is used', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       todoApp.shallowRender();
@@ -368,7 +367,7 @@ describe('TodoMVC App', function() {
 
     it('removes only completed items when clear-completed is clicked', function() {
       // given
-      var todoApp = $(<TodoApp model={model} router={router}/>);
+      let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
       todoApp.shallowRender().find('TodoFooter')[0].props.onClearCompleted();

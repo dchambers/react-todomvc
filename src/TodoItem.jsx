@@ -1,50 +1,53 @@
 'use strict';
 
-var ESCAPE_KEY = 27;
-var ENTER_KEY = 13;
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import Component from 'react-es6-component';
+import classNames from 'classnames';
 
-var TodoItem = React.createClass({
-	handleSubmit: function (event) {
-		var val = this.state.editText.trim();
+const ESCAPE_KEY = 27;
+const ENTER_KEY = 13;
+
+export default class TodoItem extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {editText: this.props.title};
+	}
+
+	handleSubmit(event) {
+		let val = this.state.editText.trim();
 		if (val) {
 			this.props.onSave(this.props.index, val);
 			this.setState({editText: val});
 		} else {
 			this.props.onDestroy(this.props.index);
 		}
-	},
+	}
 
-	handleEdit: function () {
+	handleEdit() {
 		this.props.onEdit(this.props.index);
 		this.setState({editText: this.props.title});
-	},
+	}
 
-	handleKeyDown: function (event) {
+	handleKeyDown(event) {
 		if (event.which === ESCAPE_KEY) {
 			this.setState({editText: this.props.title});
 			this.props.onCancel(event);
 		} else if (event.which === ENTER_KEY) {
 			this.handleSubmit(event);
 		}
-	},
+	}
 
-	handleChange: function (event) {
+	handleChange(event) {
 		this.setState({editText: event.target.value});
-	},
+	}
 
-	handleToggle: function () {
+	handleToggle() {
 		this.props.onToggle(this.props.index);
-	},
+	}
 
-	handleDestroy: function () {
+	handleDestroy() {
 		this.props.onDestroy(this.props.index);
-	},
-
-	getInitialState: function () {
-		return {editText: this.props.title};
-	},
+	}
 
 	/**
 	 * This is a completely optional performance enhancement that you can
@@ -53,14 +56,14 @@ var TodoItem = React.createClass({
 	 * just use it as an example of how little code it takes to get an order
 	 * of magnitude performance improvement.
 	 */
-	shouldComponentUpdate: function (nextProps, nextState) {
+	shouldComponentUpdate(nextProps, nextState) {
 		return (
 			nextProps.title !== this.props.title ||
 			nextProps.completed !== this.props.completed ||
 			nextProps.editing !== this.props.editing ||
 			nextState.editText !== this.state.editText
 		);
-	},
+	}
 
 	/**
 	 * Safely manipulate the DOM after updating the state when invoking
@@ -68,15 +71,15 @@ var TodoItem = React.createClass({
 	 * For more info refer to notes at https://facebook.github.io/react/docs/component-api.html#setstate
 	 * and https://facebook.github.io/react/docs/component-specs.html#updating-componentdidupdate
 	 */
-	componentDidUpdate: function (prevProps) {
+	componentDidUpdate(prevProps) {
 		if (!prevProps.editing && this.props.editing) {
-			var node = React.findDOMNode(this.refs.editField);
+			let node = React.findDOMNode(this.refs.editField);
 			node.focus();
 			node.setSelectionRange(node.value.length, node.value.length);
 		}
-	},
+	}
 
-	render: function () {
+	render() {
 		return (
 			<li className={classNames('todo-item', {
 				completed: this.props.completed,
@@ -105,6 +108,4 @@ var TodoItem = React.createClass({
 			</li>
 		);
 	}
-});
-
-module.exports = TodoItem;
+};
