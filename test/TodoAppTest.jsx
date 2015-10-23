@@ -278,6 +278,24 @@ describe('TodoMVC App', function() {
         </TodoItems>
       );
     });
+
+  it('marks and then unmarks all items when the toggle-all arrow is clicked twice', function() {
+    // given
+    var todoApp = $(<TodoApp model={model} router={router}/>);
+
+    // when
+    todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll({'target': {'checked': true}});
+    todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll({'target': {'checked': false}});
+
+    // then
+    expect(todoApp.shallowRender()[0], 'to contain',
+      <TodoItems activeTodoCount={3}>
+        <TodoItem title="Item #1" completed={false}/>
+        <TodoItem title="Item #2" completed={false}/>
+        <TodoItem title="Item #3" completed={false}/>
+      </TodoItems>
+      );
+    });
   });
 
   describe('when the Todo list contains a mixture of completed and active items', function() {
