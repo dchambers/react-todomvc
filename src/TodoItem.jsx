@@ -92,7 +92,7 @@ export default class TodoItem extends Component {
 						checked={this.props.completed}
 						onChange={this.handleToggle}
 					/>
-					<label onDoubleClick={this.handleEdit}>
+					<label className="todo-item-label" onDoubleClick={this.handleEdit}>
 						{this.props.title}
 					</label>
 					<button className="destroy" onClick={this.handleDestroy} />
