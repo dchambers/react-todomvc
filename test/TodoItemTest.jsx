@@ -17,7 +17,7 @@ describe('TodoItem', function() {
     let todoItem = $(<TodoItem title="Item #1" editing={false}/>);
 
     // then
-    expect(todoItem.shallowRender()[0], 'to have rendered',
+    expect(todoItem.shallowRender().unwrap(), 'to have rendered',
       <li className="todo-item"/>
     );
   });
@@ -27,7 +27,7 @@ describe('TodoItem', function() {
     let todoItem = $(<TodoItem title="Item #1" editing={true}/>);
 
     // then
-    expect(todoItem.shallowRender()[0], 'to have rendered',
+    expect(todoItem.shallowRender().unwrap(), 'to have rendered',
       <li className="todo-item editing"/>
     );
   });
