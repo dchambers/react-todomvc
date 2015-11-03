@@ -66,6 +66,15 @@ describe('TodoMVC App', function() {
       sinon.assert.notCalled(handleTodoAdded);
     });
 
+    it('allows the user to edit items', function(){
+      let handleEdit = sinon.spy();
+      let todoItem = $(<TodoItem index={1} onEdit={handleEdit}/>);
+
+      todoItem.render().find('.todo-item-label').trigger('doubleClick');
+
+      sinon.assert.calledWith(handleEdit, 1);
+    });
+
     it('allows the user to check active items', function() {
       // given
       let handleToggle = sinon.spy();
@@ -318,16 +327,16 @@ describe('TodoMVC App', function() {
       model.todos[1].completed = true;
     });
 
-    it('shows all items by default', function() {
+    it('shows all items by default, where none of them are editable', function() {
       // given
       let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // then
       expect(todoApp.shallowRender().unwrap(), 'to contain with all children',
         <TodoItems activeTodoCount={2}>
-          <TodoItem title="Item #1" completed={false}/>
-          <TodoItem title="Item #2" completed={true}/>
-          <TodoItem title="Item #3" completed={false}/>
+          <TodoItem title="Item #1" completed={false} editing={false}/>
+          <TodoItem title="Item #2" completed={true} editing={false}/>
+          <TodoItem title="Item #3" completed={false} editing={false}/>
         </TodoItems>
       );
     });
@@ -377,6 +386,23 @@ describe('TodoMVC App', function() {
         <TodoItems activeTodoCount={2}>
           <TodoItem title="Item #1" completed={false}/>
           <TodoItem title="Item #3" completed={false}/>
+        </TodoItems>
+      );
+    });
+
+    it('makes the item editable when it is double clicked', function() {
+      // given
+      let todoApp = $(<TodoApp model={model} router={router}/>);
+
+      // when
+      todoApp.shallowRender().find('TodoItem')[0].props.onEdit(1);
+
+      // then
+      expect(todoApp.shallowRender()[0], 'to contain with all children',
+        <TodoItems>
+          <TodoItem title="Item #1" editing={false}/>
+          <TodoItem title="Item #2" editing={true}/>
+          <TodoItem title="Item #3" editing={false}/>
         </TodoItems>
       );
     });
