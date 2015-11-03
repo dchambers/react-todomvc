@@ -163,7 +163,7 @@ describe('TodoMVC App', function() {
       let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // then
-      expect(todoApp.shallowRender()[0], 'to have rendered with all children',
+      expect(todoApp.shallowRender().unwrap(), 'to have rendered with all children',
         <Container componentName="TodoApp">
           <TodoHeader/>
         </Container>
@@ -175,10 +175,10 @@ describe('TodoMVC App', function() {
       let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.shallowRender().find('TodoHeader')[0].props.onTodoAdded('Item #1');
+      todoApp.shallowRender().find('TodoHeader').unwrap().props.onTodoAdded('Item #1');
 
       // then
-      expect(todoApp.shallowRender()[0], 'to have rendered with all children',
+      expect(todoApp.shallowRender().unwrap(), 'to have rendered with all children',
         <Container componentName="TodoApp">
           <TodoHeader/>
           <TodoItems activeTodoCount={1}>
@@ -201,7 +201,7 @@ describe('TodoMVC App', function() {
       let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // then
-      expect(todoApp.shallowRender()[0], 'to contain',
+      expect(todoApp.shallowRender().unwrap(), 'to contain',
         <TodoFooter count={1} completedCount={0}/>
       );
     });
@@ -211,10 +211,10 @@ describe('TodoMVC App', function() {
       let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.shallowRender().find('TodoItem')[0].props.onToggle(0);
+      todoApp.shallowRender().find('TodoItem').unwrap().props.onToggle(0);
 
       // then
-      expect(todoApp.shallowRender()[0], 'to contain',
+      expect(todoApp.shallowRender().unwrap(), 'to contain',
         <TodoFooter count={0} completedCount={1}/>
       );
     });
@@ -224,10 +224,10 @@ describe('TodoMVC App', function() {
       let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.shallowRender().find('TodoItem')[0].props.onDestroy(0);
+      todoApp.shallowRender().find('TodoItem').unwrap().props.onDestroy(0);
 
       // then
-      expect(todoApp.shallowRender()[0], 'to have rendered with all children',
+      expect(todoApp.shallowRender().unwrap(), 'to have rendered with all children',
         <Container componentName="TodoApp">
           <TodoHeader/>
         </Container>
@@ -243,7 +243,7 @@ describe('TodoMVC App', function() {
       router.dispatch('on', '/completed');
 
       // then
-      expect(todoApp.shallowRender()[0], 'to contain',
+      expect(todoApp.shallowRender().unwrap(), 'to contain',
         <TodoFooter nowShowing="completed"/>
       );
     });
@@ -253,10 +253,10 @@ describe('TodoMVC App', function() {
       let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.shallowRender().find('TodoHeader')[0].props.onTodoAdded('Item #2');
+      todoApp.shallowRender().find('TodoHeader').unwrap().props.onTodoAdded('Item #2');
 
       // then
-      expect(todoApp.shallowRender()[0], 'to contain',
+      expect(todoApp.shallowRender().unwrap(), 'to contain',
         <TodoItems activeTodoCount={2}>
           <TodoItem title="Item #1" completed={false}/>
           <TodoItem title="Item #2" completed={false}/>
@@ -278,10 +278,10 @@ describe('TodoMVC App', function() {
       let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll(true);
+      todoApp.shallowRender().find('TodoItems').unwrap().props.onToggleAll(true);
 
       // then
-      expect(todoApp.shallowRender()[0], 'to contain',
+      expect(todoApp.shallowRender().unwrap(), 'to contain',
         <TodoItems activeTodoCount={0}>
           <TodoItem title="Item #1" completed={true}/>
           <TodoItem title="Item #2" completed={true}/>
@@ -295,11 +295,11 @@ describe('TodoMVC App', function() {
     let todoApp = $(<TodoApp model={model} router={router}/>);
 
     // when
-    todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll(true);
-    todoApp.shallowRender().find('TodoItems')[0].props.onToggleAll(false);
+    todoApp.shallowRender().find('TodoItems').unwrap().props.onToggleAll(true);
+    todoApp.shallowRender().find('TodoItems').unwrap().props.onToggleAll(false);
 
     // then
-    expect(todoApp.shallowRender()[0], 'to contain',
+    expect(todoApp.shallowRender().unwrap(), 'to contain',
       <TodoItems activeTodoCount={3}>
         <TodoItem title="Item #1" completed={false}/>
         <TodoItem title="Item #2" completed={false}/>
@@ -323,7 +323,7 @@ describe('TodoMVC App', function() {
       let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // then
-      expect(todoApp.shallowRender()[0], 'to contain with all children',
+      expect(todoApp.shallowRender().unwrap(), 'to contain with all children',
         <TodoItems activeTodoCount={2}>
           <TodoItem title="Item #1" completed={false}/>
           <TodoItem title="Item #2" completed={true}/>
@@ -341,7 +341,7 @@ describe('TodoMVC App', function() {
       router.dispatch('on', '/completed');
 
       // then
-      expect(todoApp.shallowRender()[0], 'to contain with all children',
+      expect(todoApp.shallowRender().unwrap(), 'to contain with all children',
         <TodoItems activeTodoCount={2}>
           <TodoItem title="Item #2" completed={true}/>
         </TodoItems>
@@ -357,7 +357,7 @@ describe('TodoMVC App', function() {
       router.dispatch('on', '/active');
 
       // then
-      expect(todoApp.shallowRender()[0], 'to contain with all children',
+      expect(todoApp.shallowRender().unwrap(), 'to contain with all children',
         <TodoItems activeTodoCount={2}>
           <TodoItem title="Item #1" completed={false}/>
           <TodoItem title="Item #3" completed={false}/>
@@ -370,10 +370,10 @@ describe('TodoMVC App', function() {
       let todoApp = $(<TodoApp model={model} router={router}/>);
 
       // when
-      todoApp.shallowRender().find('TodoFooter')[0].props.onClearCompleted();
+      todoApp.shallowRender().find('TodoFooter').unwrap().props.onClearCompleted();
 
       // then
-      expect(todoApp.shallowRender()[0], 'to contain',
+      expect(todoApp.shallowRender().unwrap(), 'to contain',
         <TodoItems activeTodoCount={2}>
           <TodoItem title="Item #1" completed={false}/>
           <TodoItem title="Item #3" completed={false}/>

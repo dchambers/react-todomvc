@@ -14,7 +14,7 @@ describe('Todo Footer', function() {
 		let todoFooter = $(<TodoFooter count={1} completedCount={0} nowShowing="all"/>);
 
 		// then
-		expect(todoFooter.shallowRender()[0], 'not to contain',
+		expect(todoFooter.shallowRender().unwrap(), 'not to contain',
 			<button className="clear-completed"/>
 		);
 	});
@@ -24,7 +24,7 @@ describe('Todo Footer', function() {
 		let todoFooter = $(<TodoFooter count={1} completedCount={1} nowShowing="all"/>);
 
 		// then
-		expect(todoFooter.shallowRender()[0], 'to contain',
+		expect(todoFooter.shallowRender().unwrap(), 'to contain',
 			<button className="clear-completed">
 				Clear completed
 			</button>
