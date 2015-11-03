@@ -398,7 +398,7 @@ describe('TodoMVC App', function() {
       todoApp.shallowRender().find('TodoItem')[0].props.onEdit(1);
 
       // then
-      expect(todoApp.shallowRender()[0], 'to contain with all children',
+      expect(todoApp.shallowRender().unwrap(), 'to contain with all children',
         <TodoItems>
           <TodoItem title="Item #1" editing={false}/>
           <TodoItem title="Item #2" editing={true}/>
