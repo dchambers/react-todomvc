@@ -38,10 +38,12 @@
   },
   "devDependencies": {
     "babel": "^5.8.23",
+    "babel-eslint": "^4.1.6",
     "babelify": "^6.3.0",
     "browserify": "^11.2.0",
     "chai": "~3.3.0",
-    "eslint": "^1.6.0",
+    "eslint": "^1.10.3",
+    "eslint-plugin-react": "^3.11.3",
     "http-server": "^0.8.5",
     "jsdom": "^6.5.1",
     "karma": "^0.13.10",

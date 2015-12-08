@@ -55,4 +55,4 @@ export default function TodoFooter(props) {
 			{clearButton}
 		</footer>
 	);
-};
+}

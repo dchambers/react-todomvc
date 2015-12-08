@@ -1,3 +1,4 @@
+/* globals global, require */
 import {jsdom} from 'jsdom';
 
 global.document = jsdom('<html><body></body></html>');
