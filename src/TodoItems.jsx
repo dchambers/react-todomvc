@@ -1,15 +1,18 @@
-'use strict';
+import React from 'react';
+import Component from 'react-es6-component';
 
-var React = require('react');
+export default class TodoItems extends Component {
+	handleToggleAll(event) {
+		this.props.onToggleAll(event.target.checked);
+	}
 
-var TodoItems = React.createClass({
-	render: function () {
+	render() {
 		return (
       <section className="main">
         <input
           className="toggle-all"
           type="checkbox"
-          onChange={this.props.onToggleAll}
+          onChange={this.handleToggleAll}
           checked={this.props.activeTodoCount === 0}
         />
         <ul className="todo-list">
@@ -18,6 +21,4 @@ var TodoItems = React.createClass({
       </section>
 		);
 	}
-});
-
-module.exports = TodoItems;
+};

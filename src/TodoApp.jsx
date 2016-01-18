@@ -1,72 +1,81 @@
-'use strict';
+import React from 'react';
+import Component from 'react-es6-component';
 
-var ALL_TODOS = 'all';
-var ACTIVE_TODOS = 'active';
-var COMPLETED_TODOS = 'completed';
-var React = require('react');
-var Container = require('./Container.jsx');
-var TodoHeader = require('./TodoHeader.jsx');
-var TodoFooter = require('./TodoFooter.jsx');
-var TodoItems = require('./TodoItems.jsx');
-var TodoItem = require('./TodoItem.jsx');
+import Container from './Container.jsx';
+import TodoHeader from './TodoHeader.jsx';
+import TodoFooter from './TodoFooter.jsx';
+import TodoItems from './TodoItems.jsx';
+import TodoItem from './TodoItem.jsx';
 
-var TodoApp = React.createClass({
-	getInitialState: function () {
-		return {
+const ALL_TODOS = 'all';
+const ACTIVE_TODOS = 'active';
+const COMPLETED_TODOS = 'completed';
+
+export default class extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
 			nowShowing: ALL_TODOS,
 			editing: null
 		};
-	},
+	}
 
-	componentDidMount: function () {
-		var setState = this.setState;
+	componentWillMount() {
+		let setState = this.setState;
 		this.props.router.mount({
 			'/': setState.bind(this, {nowShowing: ALL_TODOS}),
 			'/active': setState.bind(this, {nowShowing: ACTIVE_TODOS}),
 			'/completed': setState.bind(this, {nowShowing: COMPLETED_TODOS})
 		});
+		this.props.model.subscribe(this.forceUpdate.bind(this));
+	}
+
+	componentDidMount() {
 		this.props.router.init('/');
-	},
+	}
 
-	addTodo: function (todo) {
+	handleTodoAdded(todo) {
 		this.props.model.addTodo(todo);
-	},
+	}
 
-	toggleAll: function (event) {
-		var checked = event.target.checked;
+	handleToggleAll(checked) {
 		this.props.model.toggleAll(checked);
-	},
+	}
 
-	toggle: function (todoToToggle) {
-		this.props.model.toggle(todoToToggle);
-	},
+	handleToggle(todoIndex) {
+		let todo = this.props.model.todos[todoIndex];
+		this.props.model.toggle(todo);
+	}
 
-	destroy: function (todo) {
+	handleDestroy(todoIndex) {
+		let todo = this.props.model.todos[todoIndex];
 		this.props.model.destroy(todo);
-	},
+	}
 
-	edit: function (todo) {
+	handleEdit(todoIndex) {
+		let todo = this.props.model.todos[todoIndex];
 		this.setState({editing: todo.id});
-	},
+	}
 
-	save: function (todoToSave, text) {
-		this.props.model.save(todoToSave, text);
+	handleSave(todoIndex, text) {
+		let todo = this.props.model.todos[todoIndex];
+		this.props.model.save(todo, text);
 		this.setState({editing: null});
-	},
+	}
 
-	cancel: function () {
+	handleCancel() {
 		this.setState({editing: null});
-	},
+	}
 
-	clearCompleted: function () {
+	handleClearCompleted() {
 		this.props.model.clearCompleted();
-	},
+	}
 
-	render: function () {
-		var model = this.props.model;
-		var todos = model.todos;
+	render() {
+		let model = this.props.model;
+		let todos = model.todos;
 
-		var shownTodos = todos.filter(function (todo) {
+		let shownTodos = todos.filter(function (todo) {
 			switch (this.state.nowShowing) {
 			case ACTIVE_TODOS:
 				return !todo.completed;
@@ -77,38 +86,38 @@ var TodoApp = React.createClass({
 			}
 		}, this);
 
-		var todoItems = shownTodos.map(function (todo) {
+		let index = 0;
+		let todoItems = shownTodos.map(function (todo) {
 			return (
 				<TodoItem
+					index={index++}
 					key={todo.id}
 					title={todo.title}
 					completed={todo.completed}
-					onToggle={this.toggle.bind(this, todo)}
-					onDestroy={this.destroy.bind(this, todo)}
-					onEdit={this.edit.bind(this, todo)}
 					editing={this.state.editing === todo.id}
-					onSave={this.save.bind(this, todo)}
-					onCancel={this.cancel}
+					onToggle={this.handleToggle}
+					onDestroy={this.handleDestroy}
+					onEdit={this.handleEdit}
+					onSave={this.handleSave}
+					onCancel={this.handleCancel}
 				/>
 			);
 		}, this);
 
 		return (
 			<Container componentName="TodoApp">
-				<TodoHeader onTodoAdded={this.addTodo}/>
+				<TodoHeader onTodoAdded={this.handleTodoAdded}/>
 				{todos.length ? (
-					<TodoItems activeTodoCount={model.activeTodoCount()} onToggleAll={this.toggleAll}>
+					<TodoItems activeTodoCount={model.activeTodoCount()} onToggleAll={this.handleToggleAll}>
 						{todoItems}
 					</TodoItems>
 				) : null}
 				{model.activeTodoCount() || model.completedCount() ? (
 					<TodoFooter count={model.activeTodoCount()} completedCount={model.completedCount()}
-						nowShowing={this.state.nowShowing} onClearCompleted={this.clearCompleted}
+						nowShowing={this.state.nowShowing} onClearCompleted={this.handleClearCompleted}
 					/>
 				) : null}
 			</Container>
 		);
 	}
-});
-
-module.exports = TodoApp;
+};

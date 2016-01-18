@@ -4,7 +4,7 @@
 
 > _[React - facebook.github.io/react](http://facebook.github.io/react)_
 
-[![Build Status](https://travis-ci.org/dchambers/react-todmvc.png)](https://travis-ci.org/dchambers/react-todmvc)
+[![Build Status](https://travis-ci.org/dchambers/react-todomvc.png)](https://travis-ci.org/dchambers/react-todomvc)
 
 ## Learning React
 
@@ -33,6 +33,6 @@ _If you have other helpful links to share, or find any of the links above no lon
 
 ## Running
 
-The app is built with [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) and compiled at runtime for a lighter and more fun code reading experience. As stated in the link, JSX is not mandatory.
+The app is built with [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) (transpiled on the server) for a lighter and more fun code reading experience. As stated in the link, JSX is not mandatory.
 
 To run the app, type `npm start` and visit http://localhost:8080/.
