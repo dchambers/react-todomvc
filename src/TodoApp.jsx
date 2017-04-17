@@ -120,4 +120,4 @@ export default class extends Component {
 			</Container>
 		);
 	}
-};
+}

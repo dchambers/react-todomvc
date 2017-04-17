@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import Component from 'react-es6-component';
 import ReactDOM from 'react-dom';
@@ -40,4 +38,4 @@ export default class TodoHeader extends Component {
       </header>
 		);
 	}
-};
+}

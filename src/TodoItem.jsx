@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import Component from 'react-es6-component';
 import classNames from 'classnames';
@@ -13,7 +11,7 @@ export default class TodoItem extends Component {
 		this.state = {editText: this.props.title};
 	}
 
-	handleSubmit(event) {
+	handleSubmit() {
 		let val = this.state.editText.trim();
 		if (val) {
 			this.props.onSave(this.props.index, val);
@@ -108,4 +106,4 @@ export default class TodoItem extends Component {
 			</li>
 		);
 	}
-};
+}
